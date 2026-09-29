@@ -13,8 +13,11 @@ Une ligne = une source. Colonne `source` du schéma harmonisé (voir `README.md`
 | CPSC, rappels de produits (SaferProducts.gov) | Domaine public (œuvre du gouvernement américain) | « U.S. Consumer Product Safety Commission » | Filtré sur mention « lead » |
 | RASFF, alertes alimentaires UE | CC-BY 4.0 (décision 2011/833/UE) | « European Commission, RASFF Window » | Filtré sur mention plomb, 5 langues |
 
-## Point non tranché
-NYC Open Data ne publie pas de licence explicite sur cette page. Vérifier nyc.gov/main/terms-of-use avant publication GitHub ; si ambigu, contacter data.cityofnewyork.us ou citer prudemment sans revendiquer de droit de réutilisation au-delà de l'attribution.
+## New York : vérifié le 29/09/2026
+
+Aucune ambiguïté : la **Local Law 11 de 2012** impose que les jeux de données publiés par la ville soient disponibles « sans obligation d'enregistrement, sans licence et sans restriction d'usage », ce que confirme la FAQ du portail NYC Open Data (« no restrictions on the use of Open Data »). Les conditions générales de nyc.gov ne concernent que le site lui-même, pas les données — d'où l'absence de licence affichée sur la page du jeu de données.
+
+Réutilisation et redistribution sont donc libres, et **l'attribution n'est pas juridiquement exigée** : celle que porte ce dépôt est volontaire.
 
 ## Règle générale
 - Garder la colonne `source` sur chaque ligne du jeu de données harmonisé : c'est ce qui rend l'attribution vérifiable.
