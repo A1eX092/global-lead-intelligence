@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Project</title>
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --line: #e3e2dd;
+  --accent: #b4441c; --accent-soft: #f3d9cf; --ok: #3d7a57; --bar: #d8d6cf;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --panel: #1f1f1d; --text: #ecebe6; --muted: #a09f98; --line: #34332f;
+    --accent: #e0714a; --accent-soft: #4a2a1f; --ok: #7fbf96; --bar: #3a3935;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --panel: #1f1f1d; --text: #ecebe6; --muted: #a09f98; --line: #34332f;
+  --accent: #e0714a; --accent-soft: #4a2a1f; --ok: #7fbf96; --bar: #3a3935;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.sub { color: var(--muted); margin: 0 0 20px; }
+.warn { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 13.5px; }
+.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 20px; }
+label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 3px; }
+select, input { width: 100%; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--text); font: inherit; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.kpi b { display: block; font-size: 24px; font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: 12.5px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; min-width: 0; }
+.bar-row { display: grid; grid-template-columns: 130px 1fr 92px; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; cursor: pointer; }
+.bar-row:hover .name { text-decoration: underline; }
+.bar-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { display: block; background: var(--bar); height: 12px; border-radius: 3px; position: relative; overflow: hidden; }
+.fill { display: block; background: var(--accent); height: 100%; }
+.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; }
+td.v { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11.5px; background: var(--bar); }
+.tag.hi { background: var(--accent); color: #fff; }
+footer { margin-top: 24px; font-size: 12.5px; color: var(--muted); }
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible,
+.bar-row:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--text); cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Lead Project</h1>
+  <p class="sub" style="margin-bottom:4px">Plomb dans les produits de consommation : données publiques harmonisées.</p>
+  <p class="sub">Prototype : six sources publiques harmonisées dans un schéma commun — 15 159 mesures, 167 fiches pays, 904 rappels et alertes. Données générées le <span id="gen"></span>.</p>
+  <div class="warn"><b>À lire avant d'interpréter :</b> les sources ne sont pas comparables telles quelles. Les services de santé américains testent surtout des produits <i>suspects</i> (biais vers le haut). Pure Earth utilise un appareil XRF sur le terrain, moins précis qu'un laboratoire. Les seuils de référence sont indicatifs (repris de Pure Earth) et ne sont pas des normes légales.</div>
+
+  <div class="filters">
+    <div><label for="f-source">Source</label><select id="f-source"></select></div>
+    <div><label for="f-cat">Catégorie</label><select id="f-cat"></select></div>
+    <div><label for="f-origin">Pays d'origine</label><select id="f-origin"></select></div>
+    <div><label for="f-sampled">Pays de prélèvement</label><select id="f-sampled"></select></div>
+    <div><label for="f-method">Méthode</label><select id="f-method"></select></div>
+    <div><label for="f-q">Produit ou marque</label><input id="f-q" type="search" placeholder="ex. turmeric, pot…"></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><b id="k-n">–</b><span>mesures</span></div>
+    <div class="kpi"><b id="k-above">–</b><span>au-dessus du seuil de référence</span></div>
+    <div class="kpi"><b id="k-countries">–</b><span>pays d'origine identifiés</span></div>
+    <div class="kpi"><b id="k-max">–</b><span>valeur max (ppm)</span></div>
+  </div>
+
+  <div class="grid">
+    <section class="panel"><h2>Pays d'origine</h2><div id="by-origin"></div>
+      <p class="hint">Part des mesures au-dessus du seuil (et nombre de mesures comparables). Minimum 10 mesures. Cliquer pour filtrer.</p></section>
+    <section class="panel"><h2>Catégories</h2><div id="by-cat"></div>
+      <p class="hint">Même lecture. Cliquer pour filtrer.</p></section>
+  </div>
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2>Par pays : que contrôler en priorité</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Pays de prélèvement</th><th>Mesures</th><th>Au-dessus du seuil</th><th>Catégories les plus touchées</th><th>Peintures &gt; 90 ppm</th><th>Peintures &gt; 10 000 ppm</th><th>Loi sur la peinture</th></tr></thead>
+      <tbody id="country-rows"></tbody>
+    </table></div>
+    <p class="hint">Les colonnes « peintures » viennent des études IPEN compilées par Our World in Data (part des peintures décoratives testées dépassant le seuil). « Loi » = contrôle légal contraignant sur la peinture au plomb (suivi OMS/PNUE, 2023). Cliquer sur un pays pour filtrer.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Mesures les plus élevées</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Produit</th><th>Marque / fabricant</th><th>Catégorie</th><th>Origine</th><th>Prélevé en</th><th>Année</th><th>Méthode</th><th>Plomb</th><th>Source</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <p class="hint" id="rows-hint"></p>
+    <button id="reset">Réinitialiser les filtres</button>
+  </section>
+
+  <section class="panel" style="margin-top:20px">
+    <h2>Rappels et alertes officiels pour cause de plomb</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Produit ou sujet de l'alerte</th><th>Entreprise</th><th>Catégorie</th><th>Origine</th><th>Année</th><th>Motif</th><th>Source</th></tr></thead>
+      <tbody id="recall-rows"></tbody>
+    </table></div>
+    <p class="hint" id="recall-hint"></p>
+  </section>
+
+  <footer>
+    Sources : Pure Earth, Rapid Market Screening (Zenodo 10444602, CC-BY 4.0) · NYC Health Department, Metal Content of Consumer Products (da9u-wz3r) · Public Health Seattle &amp; King County (i6sy-ckp7, domaine public) · Études IPEN sur la peinture et suivi OMS/PNUE des lois, compilés par Our World in Data · Rappels FDA (openFDA) et CPSC (domaine public).
+  </footer>
+</main>
+<script>
+const DATA = __DATA__;
+const C = Object.fromEntries(DATA.cols.map((c, i) => [c, i]));
+const D = DATA.dims;
+const LABELS = {
+  source: { pure_earth_rms: "Pure Earth (pays touchés)", nyc_doh: "New York", king_county: "King County (Seattle)" },
+  category: { spices: "Épices", staple_food: "Aliments de base", food_other: "Autres aliments", sweets: "Confiseries",
+    medicines: "Médicaments / remèdes", cosmetics: "Cosmétiques", religious_powder: "Poudres religieuses",
+    ceramic_tableware: "Vaisselle céramique", metal_cookware: "Ustensiles en métal", plastic_foodware: "Vaisselle plastique",
+    tableware: "Vaisselle (matière inconnue)", toys_children: "Jouets / enfants", jewelry: "Bijoux", paint: "Peintures", animal_feed: "Aliments pour animaux", game_meat: "Gibier (plomb de chasse)", other: "Autres" },
+  method: { xrf: "XRF (terrain)", laboratory: "Laboratoire" },
+};
+const RECALL_SOURCE = { cpsc: "CPSC (États-Unis)", fda_food: "FDA (États-Unis)", rasff: "RASFF (UE)" };
+const lab = (dim, i) => i == null ? "—" : ((LABELS[dim] || {})[D[dim][i]] || D[dim][i]);
+const F = { s: null, c: null, o: null, k: null, m: null, q: "" };
+const sel = { s: "f-source", c: "f-cat", o: "f-origin", k: "f-sampled", m: "f-method" };
+const dimOf = { s: "source", c: "category", o: "origin_country", k: "sampled_country", m: "method" };
+
+function fillSelect(key) {
+  const el = document.getElementById(sel[key]);
+  const dim = dimOf[key];
+  const counts = new Array(D[dim].length).fill(0);
+  for (const r of DATA.rows) if (r[C[key]] != null) counts[r[C[key]]]++;
+  const opts = D[dim].map((v, i) => [i, lab(dim, i), counts[i]]).sort((a, b) => b[2] - a[2]);
+  el.innerHTML = `<option value="">Tous</option>` + opts.map(([i, l, n]) => `<option value="${i}">${l} (${n})</option>`).join("");
+  el.onchange = () => { F[key] = el.value === "" ? null : +el.value; render(); };
+}
+
+function filtered() {
+  const q = F.q.trim().toLowerCase();
+  return DATA.rows.filter(r =>
+    (F.s == null || r[C.s] === F.s) && (F.c == null || r[C.c] === F.c) && (F.o == null || r[C.o] === F.o) &&
+    (F.k == null || r[C.k] === F.k) && (F.m == null || r[C.m] === F.m) &&
+    (!q || r[C.p].toLowerCase().includes(q) || r[C.b].toLowerCase().includes(q)));
+}
+
+function bars(el, rows, key, dim) {
+  const agg = new Map();
+  for (const r of rows) {
+    const k = r[C[key]]; if (k == null || r[C.a] == null) continue;
+    const g = agg.get(k) || { n: 0, a: 0 }; g.n++; g.a += r[C.a]; agg.set(k, g);
+  }
+  const list = [...agg.entries()].filter(([, g]) => g.n >= 10).map(([k, g]) => [k, g.a / g.n, g.n])
+    .sort((x, y) => y[1] - x[1]).slice(0, 15);
+  el.innerHTML = list.length ? list.map(([k, share, n]) => `
+    <div class="bar-row" data-k="${k}"><span class="name" title="${lab(dim, k)}">${lab(dim, k)}</span>
+    <span class="track"><span class="fill" style="width:${(share * 100).toFixed(1)}%"></span></span>
+    <span class="num">${Math.round(share * 100)} % · ${n}</span></div>`).join("") : `<p class="hint">Pas assez de mesures comparables.</p>`;
+  el.querySelectorAll(".bar-row").forEach(b => b.onclick = () => {
+    F[key] = +b.dataset.k; document.getElementById(sel[key]).value = b.dataset.k; render();
+  });
+}
+
+const fmt = n => n == null ? "—" : n >= 1000 ? Math.round(n).toLocaleString("fr-FR") : (+n).toLocaleString("fr-FR");
+
+function render() {
+  const rows = filtered();
+  const comparable = rows.filter(r => r[C.a] != null);
+  const above = comparable.filter(r => r[C.a] === 1).length;
+  document.getElementById("k-n").textContent = rows.length.toLocaleString("fr-FR");
+  document.getElementById("k-above").textContent = comparable.length ? `${Math.round(100 * above / comparable.length)} %` : "—";
+  document.getElementById("k-countries").textContent = new Set(rows.map(r => r[C.o]).filter(x => x != null)).size;
+  const ppm = rows.filter(r => r[C.u] != null && D.unit[r[C.u]] === "ppm" && !r[C.n]).map(r => r[C.v]);
+  document.getElementById("k-max").textContent = ppm.length ? fmt(Math.max(...ppm)) : "—";
+  bars(document.getElementById("by-origin"), rows, "o", "origin_country");
+  bars(document.getElementById("by-cat"), rows, "c", "category");
+
+  renderCountries(rows);
+  renderRecalls();
+
+  const top = rows.filter(r => !r[C.n] && r[C.v] != null).sort((a, b) => {
+    const pa = D.unit[a[C.u]] === "ppm" ? 1 : 0, pb = D.unit[b[C.u]] === "ppm" ? 1 : 0;
+    return pb - pa || b[C.v] - a[C.v];
+  }).slice(0, 100);
+  document.getElementById("rows").innerHTML = top.map(r => {
+    const unit = D.unit[r[C.u]] || "";
+    const hi = r[C.a] === 1;
+    return `<tr><td>${esc(r[C.p]) || "—"}</td><td>${esc(r[C.b]) || "—"}</td><td>${lab("category", r[C.c])}</td>
+      <td>${lab("origin_country", r[C.o])}</td><td>${lab("sampled_country", r[C.k])}</td><td>${r[C.y] ?? "—"}</td>
+      <td>${lab("method", r[C.m])}</td><td class="v"><span class="tag ${hi ? "hi" : ""}">${fmt(r[C.v])} ${unit}</span></td>
+      <td>${lab("source", r[C.s])}</td></tr>`;
+  }).join("");
+  document.getElementById("rows-hint").textContent =
+    `${top.length} premières mesures détectées sur ${rows.length.toLocaleString("fr-FR")} (tri : ppm d'abord, puis valeur décroissante). Étiquette colorée = au-dessus du seuil de référence.`;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function renderRecalls() {
+  const q = F.q.trim().toLowerCase();
+  const cat = F.c == null ? null : D.category[F.c];
+  const origin = F.o == null ? null : D.origin_country[F.o];
+  const list = DATA.recalls.filter(r =>
+    (!cat || r.category === cat) && (!origin || r.origin_country === origin) &&
+    (!q || (r.product || "").toLowerCase().includes(q) || (r.firm || "").toLowerCase().includes(q)));
+  document.getElementById("recall-rows").innerHTML = list.slice(0, 40).map(r => {
+    const name = esc(r.product);
+    const link = r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${name}</a>` : name;
+    return `<tr><td>${link}</td><td>${esc(r.firm) || "—"}</td><td>${(LABELS.category[r.category] || r.category)}</td>
+      <td>${esc(r.origin_country) || "—"}</td><td>${r.year ?? "—"}</td><td>${esc(r.reason).slice(0, 120)}</td>
+      <td>${RECALL_SOURCE[r.source] || r.source}</td></tr>`;
+  }).join("");
+  document.getElementById("recall-hint").textContent =
+    `${list.length} rappels correspondants (40 plus récents affichés). Ces rappels et alertes nomment les produits (et l'entreprise pour la FDA et la CPSC), mais ne donnent pas de concentration mesurée. Ils suivent les filtres catégorie, pays d'origine et recherche.`;
+}
+
+function renderCountries(rows) {
+  const agg = new Map();
+  for (const r of rows) {
+    const k = r[C.k]; if (k == null) continue;
+    const g = agg.get(k) || { n: 0, comp: 0, above: 0, cats: new Map() };
+    g.n++;
+    if (r[C.a] != null) {
+      g.comp++; g.above += r[C.a];
+      const c = g.cats.get(r[C.c]) || { n: 0, a: 0 };
+      c.n++; c.a += r[C.a]; g.cats.set(r[C.c], c);
+    }
+    agg.set(k, g);
+  }
+  const list = [...agg.entries()].filter(([, g]) => g.n >= 5).map(([k, g]) => {
+    const ctx = DATA.countries[D.sampled_country[k]] || {};
+    const cats = [...g.cats.entries()].filter(([, c]) => c.n >= 10 && c.a > 0)
+      .sort((a, b) => b[1].a / b[1].n - a[1].a / a[1].n).slice(0, 3)
+      .map(([c, v]) => `${lab("category", c)} (${Math.round(100 * v.a / v.n)} %)`).join(", ");
+    return { k, g, ctx, cats };
+  }).sort((a, b) => (b.ctx.p90 ?? -1) - (a.ctx.p90 ?? -1) || b.g.n - a.g.n);
+
+  document.getElementById("country-rows").innerHTML = list.map(({ k, g, ctx, cats }) => {
+    const share = g.comp ? `${Math.round(100 * g.above / g.comp)} %` : "—";
+    const law = ctx.law == null ? "—" : ctx.law ? "Oui" : `<span class="tag hi">Non</span>`;
+    return `<tr data-k="${k}" style="cursor:pointer"><td>${lab("sampled_country", k)}</td>
+      <td class="v">${g.n.toLocaleString("fr-FR")}</td><td class="v">${share}</td>
+      <td>${cats || "—"}</td><td class="v">${ctx.p90 != null ? ctx.p90 + " %" : "—"}</td>
+      <td class="v">${ctx.p10k != null ? ctx.p10k + " %" : "—"}</td><td>${law}</td></tr>`;
+  }).join("");
+  document.querySelectorAll("#country-rows tr").forEach(tr => tr.onclick = () => {
+    F.k = +tr.dataset.k; document.getElementById(sel.k).value = tr.dataset.k; render();
+  });
+}
+
+document.getElementById("gen").textContent = DATA.generated;
+Object.keys(sel).forEach(fillSelect);
+document.getElementById("f-q").oninput = e => { F.q = e.target.value; render(); };
+document.getElementById("reset").onclick = () => {
+  Object.keys(F).forEach(k => F[k] = k === "q" ? "" : null);
+  Object.values(sel).forEach(id => document.getElementById(id).value = "");
+  document.getElementById("f-q").value = ""; render();
+};
+render();
+</script>
+</body>
+</html>

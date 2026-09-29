@@ -1,0 +1,165 @@
+entity,code,year,lead_paint_regulation
+Afghanistan,AFG,2023,No
+Albania,ALB,2023,Yes
+Algeria,DZA,2023,Yes
+Andorra,AND,2023,No
+Angola,AGO,2023,No
+Antigua and Barbuda,ATG,2023,No
+Argentina,ARG,2023,Yes
+Armenia,ARM,2023,Yes
+Australia,AUS,2023,Yes
+Austria,AUT,2023,Yes
+Azerbaijan,AZE,2023,No
+Bahrain,BHR,2023,No
+Bangladesh,BGD,2023,Yes
+Barbados,BRB,2023,No
+Belarus,BLR,2023,Yes
+Belgium,BEL,2023,Yes
+Belize,BLZ,2023,No
+Benin,BEN,2023,No
+Bhutan,BTN,2023,No
+Bosnia and Herzegovina,BIH,2023,No
+Brazil,BRA,2023,Yes
+Bulgaria,BGR,2023,Yes
+Burkina Faso,BFA,2023,No
+Burundi,BDI,2023,No
+Cambodia,KHM,2023,No
+Cameroon,CMR,2023,Yes
+Canada,CAN,2023,Yes
+Central African Republic,CAF,2023,No
+Chad,TCD,2023,No
+Chile,CHL,2023,Yes
+China,CHN,2023,Yes
+Colombia,COL,2023,Yes
+Comoros,COM,2023,No
+Congo,COG,2023,No
+Costa Rica,CRI,2023,Yes
+Cote d'Ivoire,CIV,2023,No
+Croatia,HRV,2023,Yes
+Cuba,CUB,2023,Yes
+Cyprus,CYP,2023,Yes
+Czechia,CZE,2023,Yes
+Democratic Republic of Congo,COD,2023,No
+Denmark,DNK,2023,Yes
+Djibouti,DJI,2023,No
+Dominica,DMA,2023,Yes
+Ecuador,ECU,2023,Yes
+Egypt,EGY,2023,Yes
+El Salvador,SLV,2023,No
+Estonia,EST,2023,Yes
+Eswatini,SWZ,2023,No
+Ethiopia,ETH,2023,Yes
+Fiji,FJI,2023,No
+Finland,FIN,2023,Yes
+France,FRA,2023,Yes
+Gabon,GAB,2023,No
+Gambia,GMB,2023,No
+Georgia,GEO,2023,Yes
+Germany,DEU,2023,Yes
+Ghana,GHA,2023,No
+Greece,GRC,2023,Yes
+Guatemala,GTM,2023,No
+Guinea,GIN,2023,No
+Guinea-Bissau,GNB,2023,No
+Guyana,GUY,2023,Yes
+Haiti,HTI,2023,No
+Honduras,HND,2023,No
+Hungary,HUN,2023,Yes
+Iceland,ISL,2023,Yes
+India,IND,2023,Yes
+Iraq,IRQ,2023,Yes
+Ireland,IRL,2023,Yes
+Israel,ISR,2023,Yes
+Italy,ITA,2023,Yes
+Jamaica,JAM,2023,Yes
+Japan,JPN,2023,No
+Jordan,JOR,2023,Yes
+Kazakhstan,KAZ,2023,Yes
+Kenya,KEN,2023,Yes
+Kuwait,KWT,2023,Yes
+Kyrgyzstan,KGZ,2023,Yes
+Laos,LAO,2023,Yes
+Latvia,LVA,2023,Yes
+Lebanon,LBN,2023,Yes
+Lesotho,LSO,2023,No
+Liberia,LBR,2023,No
+Liechtenstein,LIE,2023,Yes
+Lithuania,LTU,2023,Yes
+Luxembourg,LUX,2023,Yes
+Madagascar,MDG,2023,No
+Malawi,MWI,2023,Yes
+Malaysia,MYS,2023,No
+Maldives,MDV,2023,No
+Mali,MLI,2023,No
+Malta,MLT,2023,Yes
+Mauritius,MUS,2023,No
+Mexico,MEX,2023,Yes
+Moldova,MDA,2023,No
+Monaco,MCO,2023,Yes
+Mongolia,MNG,2023,No
+Montenegro,MNE,2023,Yes
+Morocco,MAR,2023,Yes
+Mozambique,MOZ,2023,No
+Myanmar,MMR,2023,No
+Nepal,NPL,2023,Yes
+Netherlands,NLD,2023,Yes
+New Zealand,NZL,2023,Yes
+Nicaragua,NIC,2023,No
+Niger,NER,2023,No
+Nigeria,NGA,2023,No
+North Macedonia,MKD,2023,Yes
+Norway,NOR,2023,Yes
+Oman,OMN,2023,Yes
+Pakistan,PAK,2023,Yes
+Palau,PLW,2023,No
+Panama,PAN,2023,Yes
+Paraguay,PRY,2023,Yes
+Peru,PER,2023,Yes
+Philippines,PHL,2023,Yes
+Poland,POL,2023,Yes
+Portugal,PRT,2023,Yes
+Qatar,QAT,2023,Yes
+Romania,ROU,2023,Yes
+Russia,RUS,2023,Yes
+Rwanda,RWA,2023,No
+Saint Kitts and Nevis,KNA,2023,No
+Saint Lucia,LCA,2023,No
+Samoa,WSM,2023,No
+Sao Tome and Principe,STP,2023,No
+Saudi Arabia,SAU,2023,Yes
+Senegal,SEN,2023,No
+Serbia,SRB,2023,Yes
+Sierra Leone,SLE,2023,No
+Singapore,SGP,2023,No
+Slovakia,SVK,2023,Yes
+Slovenia,SVN,2023,Yes
+Solomon Islands,SLB,2023,No
+South Africa,ZAF,2023,Yes
+South Korea,KOR,2023,Yes
+Spain,ESP,2023,Yes
+Sri Lanka,LKA,2023,Yes
+Sudan,SDN,2023,No
+Suriname,SUR,2023,No
+Sweden,SWE,2023,Yes
+Switzerland,CHE,2023,Yes
+Syria,SYR,2023,No
+Tajikistan,TJK,2023,No
+Tanzania,TZA,2023,Yes
+Thailand,THA,2023,Yes
+Timor,,2023,No
+Togo,TGO,2023,No
+Trinidad and Tobago,TTO,2023,Yes
+Tunisia,TUN,2023,No
+Turkey,TUR,2023,No
+Tuvalu,TUV,2023,No
+Uganda,UGA,2023,No
+Ukraine,UKR,2023,Yes
+United Arab Emirates,ARE,2023,Yes
+United Kingdom,GBR,2023,Yes
+United States,USA,2023,Yes
+Uruguay,URY,2023,Yes
+Vanuatu,VUT,2023,No
+Vietnam,VNM,2023,Yes
+Yemen,YEM,2023,No
+Zambia,ZMB,2023,No
+Zimbabwe,ZWE,2023,No
