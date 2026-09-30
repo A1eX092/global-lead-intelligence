@@ -4,9 +4,14 @@ message: >-
   If you use this dataset or its harmonisation code, please cite it, and cite
   the original data producers listed in SOURCES.md.
 type: dataset
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23065083
+    description: Zenodo record for version 0.2.0
 authors:
   - family-names: Voisin
     given-names: Alexandre
+doi: 10.5281/zenodo.23065083
 repository-code: https://github.com/A1eX092/global-lead-intelligence
 url: https://a1ex092.github.io/global-lead-intelligence/
 abstract: >-

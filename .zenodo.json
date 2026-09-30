@@ -1,0 +1,22 @@
+{
+  "title": "Global Lead Intelligence",
+  "upload_type": "dataset",
+  "description": "<p>Open evidence on lead contamination in consumer products. Six public sources harmonised into one schema: 15,159 lead measurements from Pure Earth's Rapid Market Screening, the New York City Department of Health and Mental Hygiene, and Public Health Seattle &amp; King County; country context from the WHO lead paint law tracker (195 countries, with the year each law came into force) and IPEN paint studies compiled by Our World in Data; and 904 recalls and alerts from the FDA, CPSC and RASFF.</p><p>Every row keeps its source, sampling strategy, measurement operator, detection limit, result status and origin confidence, so that biases stay visible instead of being averaged away. 41% of the measurements come from investigations opened after a poisoning, which makes a single combined detection rate uninterpretable.</p><p>Every raw download is recorded with its URL, timestamp, size and SHA-256 checksum, so a published figure can be reproduced against the exact snapshot used.</p><p>This documents the contamination of products, not human exposure. It is neither validated nor endorsed by the organisations that produced the underlying data.</p>",
+  "creators": [
+    { "name": "Voisin, Alexandre" }
+  ],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "keywords": [
+    "lead poisoning",
+    "consumer products",
+    "open data",
+    "public health",
+    "environmental health",
+    "data harmonisation"
+  ],
+  "related_identifiers": [
+    { "identifier": "10.5281/zenodo.10444602", "relation": "isDerivedFrom", "scheme": "doi" },
+    { "identifier": "10.1038/s41598-024-59519-0", "relation": "isDerivedFrom", "scheme": "doi" }
+  ]
+}

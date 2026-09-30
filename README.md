@@ -3,6 +3,7 @@
 *Open evidence on lead contamination in consumer products*
 
 **Explore the data: https://a1ex092.github.io/global-lead-intelligence/**
+**Cite it: [10.5281/zenodo.23065083](https://doi.org/10.5281/zenodo.23065083)**
 
 > **Contamination, not exposure.** This project documents the **lead content of products**. It does not measure human exposure, which depends on how much is consumed, how often, by which route, and on bioavailability. No individual health conclusion can be drawn from it.
 
@@ -106,7 +107,7 @@ What the project does, what it deliberately does not do, and why: [DECISIONS.md]
 
 ## Citing this work
 
-See [CITATION.cff](CITATION.cff), or use GitHub's "Cite this repository" button. Please also cite the original data producers listed in [SOURCES.md](SOURCES.md) — they did the measuring.
+DOI: [10.5281/zenodo.23065083](https://doi.org/10.5281/zenodo.23065083). See [CITATION.cff](CITATION.cff), or use GitHub's "Cite this repository" button. Please also cite the original data producers listed in [SOURCES.md](SOURCES.md) — they did the measuring.
 
 ## Licences
 
