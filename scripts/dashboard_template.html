@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,64 +60,64 @@ button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid
 <body>
 <main>
   <h1>Global Lead Intelligence</h1>
-  <p class="sub" style="margin-bottom:4px">Open evidence on lead contamination in consumer products — plomb dans les produits de consommation, données publiques harmonisées.</p>
-  <p class="sub">Prototype : six sources publiques harmonisées dans un schéma commun — 15 159 mesures, 167 fiches pays, 904 rappels et alertes. Données générées le <span id="gen"></span>.</p>
-  <div class="warn"><b>À lire avant d'interpréter :</b> ces données décrivent la <b>contamination de produits</b>, pas l'exposition des personnes — celle-ci dépend de la quantité consommée, de la fréquence et de la voie d'absorption. Les sources ne sont pas comparables telles quelles : <b>41 % des mesures proviennent d'enquêtes menées après une intoxication</b>, donc de produits déjà suspects (filtre « Échantillonnage » ci-dessous). Pure Earth utilise un appareil XRF de terrain, moins précis qu'un laboratoire. Les seuils de référence sont indicatifs (repris de Pure Earth) et ne sont pas des normes légales.</div>
+  <p class="sub" style="margin-bottom:4px">Open evidence on lead contamination in consumer products</p>
+  <p class="sub">Prototype: six public sources harmonised into one schema — 15,159 measurements, 197 country profiles, 904 recalls and alerts. Data generated on <span id="gen"></span>.</p>
+  <div class="warn"><b>Read before interpreting:</b> this data describes the <b>contamination of products</b>, not human exposure — which depends on how much is consumed, how often, and by which route. The sources are not comparable as they stand: <b>41% of measurements come from investigations opened after a poisoning</b>, so from products already under suspicion (see the Sampling filter below). Pure Earth uses field XRF, less precise than a laboratory. Reference thresholds are indicative (taken from Pure Earth) and are not legal limits.</div>
 
   <div class="filters">
     <div><label for="f-source">Source</label><select id="f-source"></select></div>
-    <div><label for="f-cat">Catégorie</label><select id="f-cat"></select></div>
-    <div><label for="f-origin">Pays d'origine</label><select id="f-origin"></select></div>
-    <div><label for="f-sampled">Pays de prélèvement</label><select id="f-sampled"></select></div>
-    <div><label for="f-method">Méthode</label><select id="f-method"></select></div>
-    <div><label for="f-sampling">Échantillonnage</label><select id="f-sampling"></select></div>
-    <div><label for="f-q">Produit ou marque</label><input id="f-q" type="search" placeholder="ex. turmeric, pot…"></div>
+    <div><label for="f-cat">Category</label><select id="f-cat"></select></div>
+    <div><label for="f-origin">Country of origin</label><select id="f-origin"></select></div>
+    <div><label for="f-sampled">Country sampled</label><select id="f-sampled"></select></div>
+    <div><label for="f-method">Method</label><select id="f-method"></select></div>
+    <div><label for="f-sampling">Sampling</label><select id="f-sampling"></select></div>
+    <div><label for="f-q">Product or brand</label><input id="f-q" type="search" placeholder="e.g. turmeric, pot…"></div>
   </div>
 
   <div class="kpis">
-    <div class="kpi"><b id="k-n">–</b><span>mesures</span></div>
-    <div class="kpi"><b id="k-above">–</b><span>au-dessus du seuil de référence</span></div>
-    <div class="kpi"><b id="k-countries">–</b><span>pays d'origine identifiés</span></div>
-    <div class="kpi"><b id="k-max">–</b><span>valeur max (ppm)</span></div>
+    <div class="kpi"><b id="k-n">–</b><span>measurements</span></div>
+    <div class="kpi"><b id="k-above">–</b><span>above reference threshold</span></div>
+    <div class="kpi"><b id="k-countries">–</b><span>countries of origin identified</span></div>
+    <div class="kpi"><b id="k-max">–</b><span>highest value (ppm)</span></div>
   </div>
 
   <div class="grid">
-    <section class="panel"><h2>Pays d'origine</h2><div id="by-origin"></div>
-      <p class="hint">Part des mesures au-dessus du seuil (et nombre de mesures comparables). Minimum 10 mesures. Cliquer pour filtrer.</p></section>
-    <section class="panel"><h2>Catégories</h2><div id="by-cat"></div>
-      <p class="hint">Même lecture. Cliquer pour filtrer.</p></section>
+    <section class="panel"><h2>Country of origin</h2><div id="by-origin"></div>
+      <p class="hint">Share of measurements above the threshold (and number of comparable measurements). Minimum 10. Click to filter.</p></section>
+    <section class="panel"><h2>Categories</h2><div id="by-cat"></div>
+      <p class="hint">Same reading. Click to filter.</p></section>
   </div>
 
   <section class="panel" style="margin-bottom:20px">
-    <h2>Par pays : que contrôler en priorité</h2>
+    <h2>By country: what to screen first</h2>
     <div class="table-wrap"><table>
-      <thead><tr><th>Pays de prélèvement</th><th>Mesures</th><th>Au-dessus du seuil</th><th>Catégories les plus touchées</th><th>Peintures &gt; 90 ppm</th><th>Peintures &gt; 10 000 ppm</th><th>Loi sur la peinture</th></tr></thead>
+      <thead><tr><th>Country sampled</th><th>Measurements</th><th>Above threshold</th><th>Worst categories</th><th>Paints &gt; 90 ppm</th><th>Paints &gt; 10,000 ppm</th><th>Lead paint law</th></tr></thead>
       <tbody id="country-rows"></tbody>
     </table></div>
-    <p class="hint">Les colonnes « peintures » viennent des études IPEN compilées par Our World in Data (part des peintures décoratives testées dépassant le seuil). « Loi » = contrôle légal contraignant sur la peinture au plomb, avec son année d'entrée en vigueur (OMS, indicateur LEADCONTROL : 195 pays, 1977-2024). Cliquer sur un pays pour filtrer.</p>
+    <p class="hint">The "paints" columns come from IPEN studies compiled by Our World in Data (share of decorative paints tested above the threshold). "Law" = binding legal control on lead paint, with the year it came into force (WHO indicator LEADCONTROL: 195 countries, 1977-2024). Click a country to filter.</p>
   </section>
 
   <section class="panel">
-    <h2>Mesures les plus élevées</h2>
+    <h2>Highest measurements</h2>
     <div class="table-wrap"><table>
-      <thead><tr><th>Produit</th><th>Marque / fabricant</th><th>Catégorie</th><th>Origine</th><th>Prélevé en</th><th>Année</th><th>Méthode</th><th>Plomb</th><th>Source</th></tr></thead>
+      <thead><tr><th>Product</th><th>Brand / manufacturer</th><th>Category</th><th>Origin</th><th>Sampled in</th><th>Year</th><th>Method</th><th>Lead</th><th>Source</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
     <p class="hint" id="rows-hint"></p>
-    <button id="reset">Réinitialiser les filtres</button>
+    <button id="reset">Reset filters</button>
   </section>
 
   <section class="panel" style="margin-top:20px">
-    <h2>Rappels et alertes officiels pour cause de plomb</h2>
+    <h2>Official recalls and alerts citing lead</h2>
     <div class="table-wrap"><table>
-      <thead><tr><th>Produit ou sujet de l'alerte</th><th>Entreprise</th><th>Catégorie</th><th>Origine</th><th>Année</th><th>Motif</th><th>Source</th></tr></thead>
+      <thead><tr><th>Product or alert subject</th><th>Company</th><th>Category</th><th>Origin</th><th>Year</th><th>Reason</th><th>Source</th></tr></thead>
       <tbody id="recall-rows"></tbody>
     </table></div>
     <p class="hint" id="recall-hint"></p>
   </section>
 
   <footer>
-    Sources : Pure Earth, Rapid Market Screening (Zenodo 10444602, CC-BY 4.0) · NYC Health Department, Metal Content of Consumer Products (da9u-wz3r) · Public Health Seattle &amp; King County (i6sy-ckp7, domaine public) · Études IPEN sur la peinture et suivi OMS/PNUE des lois, compilés par Our World in Data · Rappels FDA (openFDA) et CPSC (domaine public).
+    Sources: Pure Earth, Rapid Market Screening (Zenodo 10444602, CC-BY 4.0) · NYC Health Department, Metal Content of Consumer Products (da9u-wz3r) · Public Health Seattle &amp; King County (i6sy-ckp7, public domain) · IPEN paint studies via Our World in Data · WHO Global Health Observatory (LEADCONTROL) · FDA (openFDA), CPSC and RASFF recalls and alerts. This derivative dataset is neither validated nor endorsed by NYC DOHMH.
   </footer>
 </main>
 <script>
@@ -125,18 +125,18 @@ const DATA = __DATA__;
 const C = Object.fromEntries(DATA.cols.map((c, i) => [c, i]));
 const D = DATA.dims;
 const LABELS = {
-  source: { pure_earth_rms: "Pure Earth (pays touchés)", nyc_doh: "New York", king_county: "King County (Seattle)" },
-  category: { spices: "Épices", staple_food: "Aliments de base", food_other: "Autres aliments", sweets: "Confiseries",
-    medicines: "Médicaments / remèdes", cosmetics: "Cosmétiques", religious_powder: "Poudres religieuses",
-    ceramic_tableware: "Vaisselle céramique", metal_cookware: "Ustensiles en métal", plastic_foodware: "Vaisselle plastique",
-    tableware: "Vaisselle (matière inconnue)", toys_children: "Jouets / enfants", jewelry: "Bijoux", paint: "Peintures", animal_feed: "Aliments pour animaux", game_meat: "Gibier (plomb de chasse)", other: "Autres" },
-  method: { xrf: "XRF (terrain)", laboratory: "Laboratoire" },
+  source: { pure_earth_rms: "Pure Earth (affected countries)", nyc_doh: "New York", king_county: "King County (Seattle)" },
+  category: { spices: "Spices", staple_food: "Staple foods", food_other: "Other foods", sweets: "Confectionery",
+    medicines: "Medicines / remedies", cosmetics: "Cosmetics", religious_powder: "Religious powders",
+    ceramic_tableware: "Ceramic tableware", metal_cookware: "Metal cookware", plastic_foodware: "Plastic foodware",
+    tableware: "Tableware (material unknown)", toys_children: "Toys / children's items", jewelry: "Jewellery", paint: "Paint", animal_feed: "Animal feed", game_meat: "Game meat (lead ammunition)", other: "Other" },
+  method: { xrf: "XRF (field)", laboratory: "Laboratory" },
   sampling_strategy: {
-    market_screening: "Marchés (systématique)", case_investigation: "Enquête après intoxication",
-    store_survey: "Relevé en magasin", community_event: "Objets apportés par des habitants",
-    research: "Protocole de recherche", unknown: "Non documenté" },
+    market_screening: "Market screening (systematic)", case_investigation: "Poisoning investigation",
+    store_survey: "Store survey", community_event: "Brought in by residents",
+    research: "Research protocol", unknown: "Not documented" },
 };
-const RECALL_SOURCE = { cpsc: "CPSC (États-Unis)", fda_food: "FDA (États-Unis)", rasff: "RASFF (UE)" };
+const RECALL_SOURCE = { cpsc: "CPSC (United States)", fda_food: "FDA (United States)", rasff: "RASFF (EU)" };
 const lab = (dim, i) => i == null ? "—" : ((LABELS[dim] || {})[D[dim][i]] || D[dim][i]);
 const F = { s: null, c: null, o: null, k: null, m: null, g: null, q: "" };
 const sel = { s: "f-source", c: "f-cat", o: "f-origin", k: "f-sampled", m: "f-method", g: "f-sampling" };
@@ -148,7 +148,7 @@ function fillSelect(key) {
   const counts = new Array(D[dim].length).fill(0);
   for (const r of DATA.rows) if (r[C[key]] != null) counts[r[C[key]]]++;
   const opts = D[dim].map((v, i) => [i, lab(dim, i), counts[i]]).sort((a, b) => b[2] - a[2]);
-  el.innerHTML = `<option value="">Tous</option>` + opts.map(([i, l, n]) => `<option value="${i}">${l} (${n})</option>`).join("");
+  el.innerHTML = `<option value="">All</option>` + opts.map(([i, l, n]) => `<option value="${i}">${l} (${n})</option>`).join("");
   el.onchange = () => { F[key] = el.value === "" ? null : +el.value; render(); };
 }
 
@@ -171,19 +171,19 @@ function bars(el, rows, key, dim) {
   el.innerHTML = list.length ? list.map(([k, share, n]) => `
     <div class="bar-row" data-k="${k}"><span class="name" title="${lab(dim, k)}">${lab(dim, k)}</span>
     <span class="track"><span class="fill" style="width:${(share * 100).toFixed(1)}%"></span></span>
-    <span class="num">${Math.round(share * 100)} % · ${n}</span></div>`).join("") : `<p class="hint">Pas assez de mesures comparables.</p>`;
+    <span class="num">${Math.round(share * 100)} % · ${n}</span></div>`).join("") : `<p class="hint">Not enough comparable measurements.</p>`;
   el.querySelectorAll(".bar-row").forEach(b => b.onclick = () => {
     F[key] = +b.dataset.k; document.getElementById(sel[key]).value = b.dataset.k; render();
   });
 }
 
-const fmt = n => n == null ? "—" : n >= 1000 ? Math.round(n).toLocaleString("fr-FR") : (+n).toLocaleString("fr-FR");
+const fmt = n => n == null ? "—" : n >= 1000 ? Math.round(n).toLocaleString("en-GB") : (+n).toLocaleString("en-GB");
 
 function render() {
   const rows = filtered();
   const comparable = rows.filter(r => r[C.a] != null);
   const above = comparable.filter(r => r[C.a] === 1).length;
-  document.getElementById("k-n").textContent = rows.length.toLocaleString("fr-FR");
+  document.getElementById("k-n").textContent = rows.length.toLocaleString("en-GB");
   document.getElementById("k-above").textContent = comparable.length ? `${Math.round(100 * above / comparable.length)} %` : "—";
   document.getElementById("k-countries").textContent = new Set(rows.map(r => r[C.o]).filter(x => x != null)).size;
   const ppm = rows.filter(r => r[C.u] != null && D.unit[r[C.u]] === "ppm" && !r[C.n]).map(r => r[C.v]);
@@ -207,7 +207,7 @@ function render() {
       <td>${lab("source", r[C.s])}</td></tr>`;
   }).join("");
   document.getElementById("rows-hint").textContent =
-    `${top.length} premières mesures détectées sur ${rows.length.toLocaleString("fr-FR")} (tri : ppm d'abord, puis valeur décroissante). Étiquette colorée = au-dessus du seuil de référence.`;
+    `Top ${top.length} detected measurements out of ${rows.length.toLocaleString("en-GB")} (sorted by ppm first, then descending value). Coloured tag = above the reference threshold.`;
 }
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -226,7 +226,7 @@ function renderRecalls() {
       <td>${RECALL_SOURCE[r.source] || r.source}</td></tr>`;
   }).join("");
   document.getElementById("recall-hint").textContent =
-    `${list.length} rappels correspondants (40 plus récents affichés). Ces rappels et alertes nomment les produits (et l'entreprise pour la FDA et la CPSC), mais ne donnent pas de concentration mesurée. Ils suivent les filtres catégorie, pays d'origine et recherche.`;
+    `${list.length} matching recalls (40 most recent shown). These recalls and alerts name the products — and the company for FDA and CPSC — but carry no measured concentration. They follow the category, country of origin and search filters.`;
 }
 
 function renderCountries(rows) {
@@ -252,9 +252,9 @@ function renderCountries(rows) {
 
   document.getElementById("country-rows").innerHTML = list.map(({ k, g, ctx, cats }) => {
     const share = g.comp ? `${Math.round(100 * g.above / g.comp)} %` : "—";
-    const law = ctx.law == null ? "—" : ctx.law ? (ctx.law_year ? `Oui (${ctx.law_year})` : "Oui") : `<span class="tag hi">Non</span>`;
+    const law = ctx.law == null ? "—" : ctx.law ? (ctx.law_year ? `Yes (${ctx.law_year})` : "Yes") : `<span class="tag hi">No</span>`;
     return `<tr data-k="${k}" style="cursor:pointer"><td>${lab("sampled_country", k)}</td>
-      <td class="v">${g.n.toLocaleString("fr-FR")}</td><td class="v">${share}</td>
+      <td class="v">${g.n.toLocaleString("en-GB")}</td><td class="v">${share}</td>
       <td>${cats || "—"}</td><td class="v">${ctx.p90 != null ? ctx.p90 + " %" : "—"}</td>
       <td class="v">${ctx.p10k != null ? ctx.p10k + " %" : "—"}</td><td>${law}</td></tr>`;
   }).join("");

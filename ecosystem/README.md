@@ -1,45 +1,45 @@
-# Cartographie de l'écosystème mondial des données sur le plomb
+# Mapping the global lead data ecosystem
 
-*Version 0, 30 septembre 2026. Inventaire en cours : 16 sources vérifiées une par une, avec la date de vérification. `sources.csv` est la version exploitable par machine.*
+*Version 0, 30 September 2026. Inventory in progress: 16 sources verified one by one, each with the date it was checked. `sources.csv` is the machine-readable version. (Version française : [README.fr.md](README.fr.md).)*
 
-L'objectif n'est pas de collecter davantage de données, mais de répondre à une question que personne ne documente publiquement : **qui publie quoi sur le plomb, sous quelle licence, à quelle granularité — et surtout, où sont les trous.**
+The goal is not to collect more data. It is to answer a question nobody documents publicly: **who publishes what on lead, under which licence, at which granularity — and above all, where the holes are.**
 
-## Ce que la vérification a déjà montré
+## What verification has already shown
 
-**1. La plombémie mondiale n'est pas publiée.** L'OMS expose dans son API des indicateurs dédiés (`LEAD_1` à `LEAD_10` : pourcentage d'enfants au-dessus de 5 µg/dL, décès et années de vie en bonne santé perdues). Ils contiennent **8 lignes au total, toutes datées de 2004**. Les chiffres que tout le monde cite — 1 enfant sur 3, 1,5 million de décès — viennent d'estimations modélisées (IHME, revues de littérature), pas d'un suivi ouvert pays par pays. C'est le trou le plus large de l'écosystème.
+**1. Global blood lead data is not published.** WHO exposes dedicated indicators in its API (`LEAD_1` to `LEAD_10`: share of children above 5 µg/dL, attributable deaths, DALYs). They contain **8 rows in total, all dated 2004**. The figures everyone cites — one child in three, 1.5 million deaths — come from modelled estimates (IHME, literature reviews), not from an open country-by-country record. This is the widest hole in the ecosystem.
 
-**2. Ce qui est bien alimenté, ce sont les lois, pas les mesures.** Le même GHO expose `LEADCONTROL` : 195 pays, de 1977 à 2024. On sait mieux quel pays a voté une loi que quel pays a du plomb dans le sang de ses enfants.
+**2. What is well maintained is the law, not the measurement.** The same GHO exposes `LEADCONTROL`: 195 countries, 1977 to 2024. **We know better which country passed a law than which country has lead in its children's blood.**
 
-*Intégré le 30/09/2026.* Cette source remplace désormais la reprise d'Our World in Data pour les lois : 197 pays contre 164, et surtout **l'année d'entrée en vigueur** (États-Unis 1977, Cuba 1984, Costa Rica 1995 ; médiane mondiale 2008). Les deux sources ne divergent que sur **1 pays sur 163**, ce qui confirme la fiabilité des deux. Bilan : **94 pays dotés d'une loi, 70 sans, 33 sans donnée.**
+*Integrated 2026-09-30.* This source now replaces the Our World in Data version for laws: 197 countries against 164, and above all **the year the law came into force** (United States 1977, Cuba 1984, Costa Rica 1995; global median 2008). The two sources disagree on **1 country out of 163**, which is reassuring about both. Totals: **94 countries with a law, 70 without, 33 with no data.**
 
-**3. Les mesures existent surtout là où elles servent à poursuivre.** Rappels et alertes (FDA, CPSC, RASFF) sont continus, structurés, dotés d'API. Les campagnes de mesure, elles, sont ponctuelles : Pure Earth a publié une campagne 2021-2023, et rien n'indique qu'elle sera renouvelée.
+**3. Continuous measurement exists mainly where it supports enforcement.** Recalls and alerts (FDA, CPSC, RASFF) are continuous, structured and served by APIs. Measurement campaigns are one-off: Pure Earth published a 2021-2023 campaign, with no indication it will be repeated.
 
-**4. Les données les plus utiles sont enfermées dans des PDF.** IPEN a testé plus de 5 000 peintures dans une soixantaine de pays depuis 2007 : tout est en PDF, un par pays. Sans la compilation d'Our World in Data, ces données seraient inexploitables.
+**4. The most useful data sits locked in PDFs.** IPEN has tested more than 5,000 paints across some 60 countries since 2007 — all published as country PDFs. Without the Our World in Data compilation, that evidence would be unusable at scale.
 
-**5. Deux portes sont fermées.** Safety Gate, le système d'alerte européen pour les produits non alimentaires — jouets, bijoux, cosmétiques — refuse l'accès à son API hors de son interface. Les rappels canadiens sont publiés sans nom de produit.
+**5. Two doors are closed.** Safety Gate, the EU alert system for non-food products (toys, jewellery, cosmetics), refuses API access from outside its own interface. Canadian recalls are published without product names.
 
-## Les couches et leur état
+## Layers and their state
 
-| Couche | État | Commentaire |
+| Layer | State | Comment |
 |---|---|---|
-| Produits de consommation | partiel | 15 159 mesures, mais 3 sources seulement, dont 2 américaines |
-| Rappels et alertes | bon | 3 API continues, 904 événements |
-| Réglementation | bon pour la peinture, inexistant ailleurs | Rien sur les épices, la vaisselle, les cosmétiques |
-| Peintures | correct mais captif | PDF IPEN, dépendance à la compilation OWID |
-| Sites pollués | à évaluer | Pure Earth TSIP, ~1 500 sites au plomb |
-| Plombémie | **trou majeur** | Rien de global et d'ouvert ; États-Unis seulement, et partiellement restreint |
-| Eau, sols, poussières | non exploré | |
-| Exposition professionnelle | non exploré | Recyclage des batteries, ateliers de fonderie |
-| Interventions et résultats | inexistant | Personne ne documente ce qui a marché après une détection |
+| Consumer products | partial | 15,159 measurements, but only 3 sources, 2 of them American |
+| Recalls and alerts | good | 3 continuous APIs, 904 events |
+| Regulation | good for paint, absent elsewhere | Nothing on spices, tableware, cosmetics |
+| Paint | usable but captive | IPEN PDFs, dependence on the OWID compilation |
+| Contaminated sites | to assess | Pure Earth TSIP, ~1,500 lead sites |
+| Blood lead | **major hole** | Nothing global and open; United States only, and partly restricted |
+| Water, soil, dust | not explored | |
+| Occupational exposure | not explored | Battery recycling, informal smelting |
+| Interventions and outcomes | non-existent | Nobody documents what worked after a detection |
 
-## Méthode
+## Method
 
-Une source n'entre dans `sources.csv` qu'après vérification directe : appel de l'API, lecture de la licence, comptage des lignes. La colonne `verifie_le` porte la date. Les sources non vérifiées sont marquées « à évaluer » ou « à vérifier », jamais présentées comme acquises.
+A source enters `sources.csv` only after direct verification: calling the API, reading the licence, counting the rows. The `verifie_le` column carries that date. Unverified sources are marked "to assess" or "to verify" — never presented as established.
 
-## Prochaines vérifications
+## Next checks
 
-- IHME / Global Burden of Disease : accès aux estimations de plombémie par pays
-- Eau potable : bases américaines (SDWIS, ECHO) et rapports européens
-- Exposition professionnelle : ABLES aux États-Unis, données de l'OIT
-- Humanitarian Data Exchange (HDX) et portails nationaux
-- ICSMS, la base européenne de surveillance du marché — contournement possible de Safety Gate
+- IHME / Global Burden of Disease: access to modelled blood lead estimates by country
+- Drinking water: US databases (SDWIS, ECHO) and European reporting
+- Occupational exposure: ABLES in the United States, ILO data
+- Humanitarian Data Exchange (HDX) and national portals
+- ICSMS, the EU market surveillance database — a possible way around Safety Gate

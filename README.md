@@ -2,106 +2,102 @@
 
 *Open evidence on lead contamination in consumer products*
 
-> **Contamination, pas exposition.** Ce projet documente la **teneur en plomb de produits**. Il ne mesure pas l'exposition des personnes, qui dépend de la quantité consommée, de la fréquence, de la voie d'absorption et de la biodisponibilité. Aucune conclusion sanitaire individuelle ne peut en être tirée.
+> **Contamination, not exposure.** This project documents the **lead content of products**. It does not measure human exposure, which depends on how much is consumed, how often, by which route, and on bioavailability. No individual health conclusion can be drawn from it.
 
-Rassemble et harmonise des données publiques de tests de plomb dans les produits de consommation (épices, ustensiles, cosmétiques, jouets, peintures…), avec un tableau de bord local pour les explorer.
+Six public sources, harmonised into one schema, with a local dashboard to explore them. Exploratory prototype, started 19 September 2026. *(Version française : [README.fr.md](README.fr.md).)*
 
-Prototype exploratoire (19/09/2026). Voir l'idée n°6 de `../projets futurs.md`.
-
-Licences et attribution complètes de toutes les sources (dont RASFF, FDA, CPSC) : voir `SOURCES.md`.
-
-## Lancer
+## Run it
 
 ```bash
-cd global-lead-intelligence
 python3 -m venv .venv && .venv/bin/pip install pandas openpyxl pycountry certifi
-.venv/bin/python scripts/fetch.py            # télécharge les sources dans data/raw/
+.venv/bin/python scripts/fetch.py            # raw sources → data/raw/
+.venv/bin/python scripts/fetch_rasff.py      # EU alerts (slow: scans 32,000+ notifications)
 .venv/bin/python scripts/harmonize.py        # → data/harmonized.csv
-.venv/bin/python scripts/build_countries.py   # → data/countries.csv (contexte par pays)
-.venv/bin/python scripts/fetch_rasff.py       # alertes UE (long : parcourt 32 000+ notifications)
-.venv/bin/python scripts/build_recalls.py     # → data/recalls.csv (rappels et alertes)
+.venv/bin/python scripts/build_countries.py  # → data/countries.csv
+.venv/bin/python scripts/build_recalls.py    # → data/recalls.csv
 .venv/bin/python scripts/build_dashboard.py  # → dashboard/index.html
-python3 -m http.server 8765 --directory dashboard   # puis http://localhost:8765
+python3 -m http.server 8765 --directory dashboard
 ```
 
-## Sources intégrées
+## What's in it
 
-| Source | Lignes (plomb) | Méthode | Licence |
+### Measurements (`data/harmonized.csv` — one row per lead measurement)
+
+| Source | Rows | Method | Licence |
 |---|---|---|---|
-| Pure Earth, Rapid Market Screening — 25 pays à faibles et moyens revenus, 2021-2023 ([Zenodo 10444602](https://zenodo.org/records/10444602)) | 5 153 | XRF sur le terrain | CC-BY 4.0 |
-| NYC Health Department, Metal Content of Consumer Products ([da9u-wz3r](https://data.cityofnewyork.us/resource/da9u-wz3r.json)), 2011-2025 | 7 795 | Laboratoire (majorité), XRF | Open data de la ville, réutilisation libre (Local Law 11 de 2012) |
-| Public Health Seattle & King County ([i6sy-ckp7](https://data.kingcounty.gov/resource/i6sy-ckp7.json)) | 2 211 | XRF, laboratoire | Domaine public |
-| **Total mesures** | **15 159** | | |
+| Pure Earth, Rapid Market Screening — 25 low- and middle-income countries, 2021-2023 ([Zenodo 10444602](https://zenodo.org/records/10444602)) | 5,153 | Field XRF | CC-BY 4.0 |
+| NYC Health Department, Metal Content of Consumer Products ([da9u-wz3r](https://data.cityofnewyork.us/resource/da9u-wz3r.json)), 2011-2025 | 7,795 | Mostly laboratory, some XRF | Free reuse (NYC Local Law 11 of 2012) |
+| Public Health Seattle & King County ([i6sy-ckp7](https://data.kingcounty.gov/resource/i6sy-ckp7.json)) | 2,211 | XRF and laboratory | Public domain |
+| **Total** | **15,159** | | |
 
-### Contexte par pays (`data/countries.csv`, granularité différente : une ligne = un pays)
+### Country context (`data/countries.csv` — one row per country)
 
-| Source | Contenu | Couverture |
+| Source | Content | Coverage |
 |---|---|---|
-| Études IPEN sur la peinture, compilées par [Our World in Data](https://ourworldindata.org/lead-paint) | Part des peintures décoratives dépassant 90, 600 et 10 000 ppm | 59 pays |
-| Suivi OMS/PNUE des lois sur la peinture au plomb (via Our World in Data) | Loi contraignante oui/non (2023) | 164 pays, dont **71 sans loi** |
+| WHO Global Health Observatory, `LEADCONTROL` | Binding lead paint law, **with the year it came into force** | 195 countries, 1977-2024 — 94 with a law, 70 without, 33 with no data |
+| IPEN paint studies, compiled by [Our World in Data](https://ourworldindata.org/lead-paint) | Share of decorative paints above 90, 600 and 10,000 ppm | 59 countries |
 
-### Rappels et alertes officiels (`data/recalls.csv`, une ligne = un rappel ou une alerte)
+IPEN publishes only country PDFs; the Our World in Data compilation (100+ studies, 4,000+ paints) avoids extracting them one by one. WHO's own indicator is used as the reference for laws — it covers more countries and carries the year — with the OWID version kept alongside as a cross-check. The two disagree on **1 country out of 163**.
 
-| Source | Contenu | Volume |
+### Recalls and alerts (`data/recalls.csv` — one row per recall or alert)
+
+| Source | Content | Rows |
 |---|---|---|
-| FDA, rappels alimentaires (openFDA) | Produits alimentaires rappelés pour cause de plomb | 253 |
-| CPSC, rappels de produits de consommation | Jouets, bijoux, peintures… | 381 |
-| RASFF, alertes alimentaires de l'UE | Notifications mentionnant le plomb, avec pays d'origine | 270 |
+| FDA food enforcement (openFDA) | Food recalled for lead | 253 |
+| CPSC recalls | Toys, jewellery, paint — with country of manufacture | 381 |
+| RASFF (EU) | Notifications mentioning lead, with country of origin | 270 |
 | **Total** | 1976-2026 | **904** |
 
-Ces rappels **nomment les produits** (et l'entreprise pour la FDA et la CPSC) mais ne donnent pas de concentration. Pays d'origine : **Chine 345, Inde 35, Italie 24, Allemagne 22, Royaume-Uni 21**. Catégories dominantes : jouets et articles pour enfants (254), épices (110), peintures (82), vaisselle et contenants (60).
+These name the products (and the company, for FDA and CPSC) but carry no measured concentration. Countries of origin: China 345, India 35, Italy 24, Germany 22, UK 21. RASFF surfaces two families the US sources miss entirely: **animal feed** (33) and **game meat** (21), contaminated by lead ammunition.
 
-RASFF fait apparaître deux familles absentes des autres sources : les **aliments pour animaux** (33) et le **gibier** (21), contaminé par les munitions au plomb. L'API RASFF ne sait pas filtrer par danger : `fetch_rasff.py` parcourt les 32 597 notifications publiques et retient celles dont le sujet mentionne le plomb, en cinq langues.
+## Read `sampling_strategy` before comparing anything
 
-IPEN ne publie que des PDF par pays : la compilation d'Our World in Data (plus de 100 études, plus de 4 000 peintures) évite d'avoir à les extraire un par un. Extraire les PDF reste possible plus tard pour retrouver le détail par marque.
+This is the most important column in the dataset. **41% of measurements (6,185) come from investigations opened after a child was poisoned**: products already under suspicion. Comparing them with systematic market purchases (5,153 Pure Earth rows) is like comparing an emergency room with a population screening.
 
-## Schéma commun
-
-Une ligne = une mesure. Colonnes : `source`, `source_id`, `category`, `category_raw`, `product_name`, `brand`, `manufacturer`, `origin_country`, `origin_inferred`, `origin_raw`, `sampled_country`, `sampled_region`, `year`, `method`, `unit`, `lead_value`, `lead_ppm`, `non_detect`, `reference_ppm`, `above_reference`. Le détail figure en tête de `scripts/harmonize.py`.
-
-## Comparer deux chiffres : lire d'abord `sampling_strategy`
-
-C'est la colonne la plus importante du jeu de données. **41 % des mesures (6 185) proviennent d'enquêtes menées après une intoxication** : ce sont des produits déjà suspects, sélectionnés parce qu'un enfant était malade. Les comparer à des achats systématiques sur un marché (5 153 mesures de Pure Earth) revient à comparer un service d'urgences à un dépistage de population.
-
-| Stratégie | Mesures | Ce que ça implique |
+| Strategy | Rows | What it implies |
 |---|---|---|
-| `case_investigation` | 6 185 | Produits saisis après une intoxication — fortement biaisé vers le haut |
-| `market_screening` | 5 153 | Achats systématiques sur les marchés — la base la plus proche d'un échantillon représentatif |
-| `community_event` | 1 344 | Objets apportés spontanément par des habitants — auto-sélection |
-| `store_survey` | 1 188 | Relevé en magasin |
-| `unknown` | 798 | Non documenté par la source |
-| `research` | 491 | Protocole de recherche |
+| `case_investigation` | 6,185 | Seized after a poisoning — strongly biased upward |
+| `market_screening` | 5,153 | Systematic market purchases — closest to a representative sample |
+| `community_event` | 1,344 | Items brought in by residents — self-selected |
+| `store_survey` | 1,188 | Collected in shops |
+| `unknown` | 798 | Not documented by the source |
+| `research` | 491 | Research protocol |
 
-Un taux de dépassement calculé toutes stratégies confondues **n'a pas de sens**. Le tableau de bord expose ce filtre en évidence.
+A detection rate computed across all strategies at once **means nothing**. The dashboard exposes this filter prominently.
 
-## Trois statuts à ne jamais confondre
+## Three statuses never to conflate
 
-- **`result_status`** : `detected`, `non_detected`, `missing`. Une valeur absente n'est pas un « zéro » : 888 mesures sont dans ce cas, et elles étaient auparavant comptées comme non détectées.
-- **Valeurs censurées** : un résultat « < 5 ppm » conserve 5 dans `lead_value` (c'est la limite de détection) et laisse `lead_ppm` vide. Ce n'est jamais un zéro.
-- **`origin_status`** et **`origin_confidence`** : `declared` (1.0, « Made in India »), `inferred_region` (0.8, « East Java » → Indonésie), `assumed_local` (0.35, lieu inconnu dans le pays d'achat), `unknown`. Filtrer sur `origin_confidence >= 0.8` pour ne garder que les origines solides.
+- **`result_status`**: `detected`, `non_detected`, `missing`. A missing value is not a zero — 888 rows are in this state, and they were previously counted as non-detects.
+- **Censored values**: a "< 5 ppm" result keeps 5 in `lead_value` (that is the detection limit) and leaves `lead_ppm` empty. It is never a zero.
+- **`origin_status`** and **`origin_confidence`**: `declared` (1.0, "Made in India"), `inferred_region` (0.8, "East Java" → Indonesia), `assumed_local` (0.35, unidentified place in the country of purchase), `unknown`. Filter on `origin_confidence >= 0.8` to keep only solid origins.
 
-## Choix techniques (réversibles)
+## Schema
 
-- **Catégories** : 15 catégories communes. Les correspondances sont dans `harmonize.py`. « Vaisselle (matière inconnue) » regroupe la vaisselle de New York et de King County, où la matière (céramique ou métal) n'est pas précisée.
-- **Non détecté** : `-1` chez New York, `<` ou `<LOD` chez King County, `0` chez Pure Earth.
-- **Unités** : les ppb sont convertis en ppm. Les mg/cm² (peintures et surfaces testées au XRF) et les mg/l sont conservés tels quels, mais exclus des comparaisons en ppm.
-- **Seuils de référence** : ceux de l'étude Pure Earth, par catégorie, repris dans la colonne `reference_basis`. Ils sont **indicatifs, pas légaux** : ils ne dépendent ni de la juridiction, ni de la date, ni de la population concernée. Une couche réglementaire par pays reste à construire. Contrôle : 917 mesures Pure Earth au-dessus du seuil selon nos calculs, contre 913 selon le fichier d'origine.
-- **Pays d'origine** : normalisés en noms ISO grâce à pycountry, avec des alias et une recherche du nom de pays dans le texte. Les régions sont résolues via les subdivisions ISO (« East Java » → Indonésie, « Morelos » → Mexique) ; une région ambiguë (Punjab) n'est tranchée que si elle appartient au pays de prélèvement. Un lieu non identifié qui ne dit pas « importé » est rattaché au pays de prélèvement (produit local). Ces cas sont marqués `origin_inferred = True`. Résultat : **70 %** des lignes ont un pays (65 % déclaré, 6 % déduit).
+One row per measurement: `source`, `source_id`, `category`, `category_raw`, `product_name`, `brand`, `manufacturer`, `origin_country`, `origin_status`, `origin_confidence`, `origin_raw`, `sampled_country`, `sampled_region`, `year`, `method`, `unit`, `lead_value`, `lead_ppm`, `non_detect`, `result_status`, `sampling_strategy`, `sampling_raw`, `reference_ppm`, `reference_basis`. Full definitions at the top of [`scripts/harmonize.py`](scripts/harmonize.py).
 
-## Limites à garder en tête
+## Design decisions (all reversible)
 
-- **RASFF n'est filtré que sur le sujet de la notification**, en cinq langues. Une alerte où le plomb n'apparaît que dans un autre champ est manquée. Le chiffre de 270 est donc un plancher, pas un total.
-- **Ce jeu de données dérivé n'est ni validé ni approuvé par le NYC DOHMH**, qui autorise les travaux dérivés à condition qu'ils ne soient pas trompeurs et n'impliquent aucune caution de sa part.
+- **Categories**: 15 shared categories; the mappings live in `harmonize.py`. "Tableware (material unknown)" covers NYC and King County rows where ceramic and metal are not distinguished.
+- **Units**: ppb converted to ppm. mg/cm² (paint and surfaces tested by XRF) and mg/L are kept as they are and excluded from ppm comparisons.
+- **Reference thresholds**: taken from the Pure Earth study, per category, recorded in `reference_basis`. They are **indicative, not legal**: they carry no jurisdiction, no date, no target population. A proper regulatory layer remains to be built. Cross-check: 917 Pure Earth rows above threshold by our computation, against 913 in their own file.
+- **Countries**: normalised to ISO names with pycountry, plus aliases and a country-name search inside free text. Regions are resolved through ISO subdivisions ("East Java" → Indonesia, "Morelos" → Mexico); an ambiguous region such as Punjab is only resolved when it belongs to the country of purchase. **70%** of rows carry a country (65% declared, 6% inferred).
 
-- **Biais d'échantillonnage** : New York et King County testent surtout des produits suspects ou liés à des enfants intoxiqués. Les taux sont donc biaisés vers le haut. Pure Earth fait des achats plus systématiques sur les marchés.
-- **Précision des méthodes** : le XRF de terrain (limite de détection de quelques ppm) n'a pas la précision d'une analyse en laboratoire.
-- **Pas de date par échantillon** chez Pure Earth (seulement la période 2021-2023).
+## Known limits
 
-## Public visé
+- **Sampling bias**: NYC and King County mostly test suspect products or items linked to poisoned children. Pure Earth buys more systematically on markets.
+- **Method precision**: field XRF (detection limit of a few ppm) is not laboratory analysis.
+- **No per-sample date** in the Pure Earth data — only the 2021-2023 window.
+- **RASFF is filtered on notification subject only**, in five languages. An alert where lead appears solely in another field is missed. The 270 figure is a floor, not a total.
+- **This derivative dataset is neither validated nor endorsed by NYC DOHMH**, which permits derivative work provided it is not misleading and implies no endorsement.
 
-**Autorités et ONG des pays touchés d'abord** : la question à laquelle le tableau de bord doit répondre est « quelles catégories et quels pays contrôler en priorité ». Les données restent ouvertes et citables pour les chercheurs. Pas de classement public « pire marque » : un seul test ne suffit pas à condamner un produit.
+## Who it is for
 
-## Pistes suivantes
+**Regulators and NGOs in affected countries first**: the question the dashboard answers is "which product categories and which countries should be screened first". The data stays open and citable for researchers. No public "worst brands" ranking — a single test cannot condemn a product.
 
-- RASFF, alertes de l'UE : accès à vérifier. Utile pour les produits qui circulent hors des États-Unis.
-- PDF IPEN par pays : détail par marque, si le besoin se confirme.
+## Mapping the ecosystem
+
+[`ecosystem/`](ecosystem/) catalogues who publishes what on lead worldwide, under which licence, at which granularity — and where the holes are. First finding: WHO's own blood lead indicators (`LEAD_1` to `LEAD_10`) contain **8 rows, all from 2004**. We know better which country passed a law than which country has lead in its children's blood.
+
+## Licences
+
+Code under MIT, data under CC-BY 4.0. Per-source attribution and terms: [SOURCES.md](SOURCES.md).
