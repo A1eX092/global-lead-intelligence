@@ -6,7 +6,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "harmonized.csv"
-OUT = ROOT / "dashboard" / "index.html"
+# GitHub Pages serves /docs on the main branch, so the public page is built there
+OUT = ROOT / "docs" / "index.html"
 ARTIFACT = ROOT / "dashboard" / "artifact.html"
 TEMPLATE = Path(__file__).resolve().parent / "dashboard_template.html"
 

@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: Global Lead Intelligence
+message: >-
+  If you use this dataset or its harmonisation code, please cite it, and cite
+  the original data producers listed in SOURCES.md.
+type: dataset
+authors:
+  - family-names: Voisin
+    given-names: Alexandre
+repository-code: https://github.com/A1eX092/global-lead-intelligence
+url: https://a1ex092.github.io/global-lead-intelligence/
+abstract: >-
+  Open evidence on lead contamination in consumer products. Six public sources
+  harmonised into one schema: 15,159 measurements from Pure Earth's Rapid Market
+  Screening, the New York City Health Department and Public Health Seattle &
+  King County; country context from WHO's lead paint law tracker and IPEN paint
+  studies; and 904 recalls and alerts from the FDA, CPSC and RASFF. Every row
+  keeps its source, sampling strategy, measurement operator, detection limit and
+  origin confidence, so that biases remain visible rather than averaged away.
+  This documents the contamination of products, not human exposure.
+keywords:
+  - lead poisoning
+  - consumer products
+  - open data
+  - public health
+  - environmental health
+  - data harmonisation
+license: CC-BY-4.0
+version: 0.2.0
+date-released: '2026-09-30'

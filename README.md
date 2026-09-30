@@ -2,6 +2,8 @@
 
 *Open evidence on lead contamination in consumer products*
 
+**Explore the data: https://a1ex092.github.io/global-lead-intelligence/**
+
 > **Contamination, not exposure.** This project documents the **lead content of products**. It does not measure human exposure, which depends on how much is consumed, how often, by which route, and on bioavailability. No individual health conclusion can be drawn from it.
 
 Six public sources, harmonised into one schema, with a local dashboard to explore them. Exploratory prototype, started 19 September 2026. *(Version française : [README.fr.md](README.fr.md).)*
@@ -15,8 +17,8 @@ python3 -m venv .venv && .venv/bin/pip install pandas openpyxl pycountry certifi
 .venv/bin/python scripts/harmonize.py        # → data/harmonized.csv
 .venv/bin/python scripts/build_countries.py  # → data/countries.csv
 .venv/bin/python scripts/build_recalls.py    # → data/recalls.csv
-.venv/bin/python scripts/build_dashboard.py  # → dashboard/index.html
-python3 -m http.server 8765 --directory dashboard
+.venv/bin/python scripts/build_dashboard.py  # → docs/index.html (published by GitHub Pages)
+python3 -m http.server 8765 --directory docs
 ```
 
 ## What's in it
@@ -101,6 +103,10 @@ One row per measurement: `schema_version`, `source`, `source_id`, `category`, `c
 ## Design decisions
 
 What the project does, what it deliberately does not do, and why: [DECISIONS.md](DECISIONS.md). Schema version 0.2.
+
+## Citing this work
+
+See [CITATION.cff](CITATION.cff), or use GitHub's "Cite this repository" button. Please also cite the original data producers listed in [SOURCES.md](SOURCES.md) — they did the measuring.
 
 ## Licences
 

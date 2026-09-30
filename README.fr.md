@@ -2,6 +2,8 @@
 
 *Open evidence on lead contamination in consumer products*
 
+**Explorer les données : https://a1ex092.github.io/global-lead-intelligence/**
+
 > **Contamination, pas exposition.** Ce projet documente la **teneur en plomb de produits**. Il ne mesure pas l'exposition des personnes, qui dépend de la quantité consommée, de la fréquence, de la voie d'absorption et de la biodisponibilité. Aucune conclusion sanitaire individuelle ne peut en être tirée.
 
 Rassemble et harmonise des données publiques de tests de plomb dans les produits de consommation (épices, ustensiles, cosmétiques, jouets, peintures…), avec un tableau de bord local pour les explorer.
