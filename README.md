@@ -73,7 +73,7 @@ A detection rate computed across all strategies at once **means nothing**. The d
 
 ## Schema
 
-One row per measurement: `source`, `source_id`, `category`, `category_raw`, `product_name`, `brand`, `manufacturer`, `origin_country`, `origin_status`, `origin_confidence`, `origin_raw`, `sampled_country`, `sampled_region`, `year`, `method`, `unit`, `lead_value`, `lead_ppm`, `non_detect`, `result_status`, `sampling_strategy`, `sampling_raw`, `reference_ppm`, `reference_basis`. Full definitions at the top of [`scripts/harmonize.py`](scripts/harmonize.py).
+One row per measurement: `schema_version`, `source`, `source_id`, `category`, `category_raw`, `product_name`, `brand`, `manufacturer`, `origin_country`, `origin_status`, `origin_confidence`, `origin_raw`, `sampled_country`, `sampled_region`, `year`, `method`, `unit`, `lead_value`, `measurement_operator`, `detection_limit`, `original_value`, `original_unit`, `lead_ppm`, `non_detect`, `result_status`, `sampling_strategy`, `sampling_raw`, `reference_ppm`, `reference_basis`. Full definitions at the top of [`scripts/harmonize.py`](scripts/harmonize.py).
 
 ## Design decisions (all reversible)
 
@@ -97,6 +97,10 @@ One row per measurement: `source`, `source_id`, `category`, `category_raw`, `pro
 ## Mapping the ecosystem
 
 [`ecosystem/`](ecosystem/) catalogues who publishes what on lead worldwide, under which licence, at which granularity — and where the holes are. First finding: WHO's own blood lead indicators (`LEAD_1` to `LEAD_10`) contain **8 rows, all from 2004**. We know better which country passed a law than which country has lead in its children's blood.
+
+## Design decisions
+
+What the project does, what it deliberately does not do, and why: [DECISIONS.md](DECISIONS.md). Schema version 0.2.
 
 ## Licences
 

@@ -70,7 +70,7 @@ button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid
 
   <div class="kpis">
     <div class="kpi"><b id="k-n">–</b><span>measurements</span></div>
-    <div class="kpi"><b id="k-above">–</b><span>above reference threshold</span></div>
+    <div class="kpi"><b id="k-above">–</b><span id="k-above-label">above reference threshold</span></div>
     <div class="kpi"><b id="k-countries">–</b><span>countries of origin identified</span></div>
     <div class="kpi"><b id="k-max">–</b><span>highest value (ppm)</span></div>
   </div>
@@ -178,7 +178,29 @@ function render() {
   const comparable = rows.filter(r => r[C.a] != null);
   const above = comparable.filter(r => r[C.a] === 1).length;
   document.getElementById("k-n").textContent = rows.length.toLocaleString("en-GB");
-  document.getElementById("k-above").textContent = comparable.length ? `${Math.round(100 * above / comparable.length)} %` : "—";
+  // A single rate across sampling strategies is not interpretable: poisoning
+  // investigations and market screening do not answer the same question.
+  const kAbove = document.getElementById("k-above");
+  const kAboveLabel = document.getElementById("k-above-label");
+  if (!comparable.length) {
+    kAbove.textContent = "—"; kAboveLabel.textContent = "above reference threshold";
+  } else if (F.g == null) {
+    const byStrategy = new Map();
+    for (const r of comparable) {
+      const g = byStrategy.get(r[C.g]) || { n: 0, a: 0 };
+      g.n++; g.a += r[C.a]; byStrategy.set(r[C.g], g);
+    }
+    const parts = [...byStrategy.entries()].filter(([, g]) => g.n >= 30)
+      .sort((x, y) => y[1].n - x[1].n).slice(0, 2)
+      .map(([k, g]) => `${Math.round(100 * g.a / g.n)}% ${lab("sampling_strategy", k).toLowerCase()}`);
+    kAbove.textContent = parts.length ? parts.join(" · ") : "—";
+    kAbove.style.fontSize = "15px";
+    kAboveLabel.textContent = "above threshold, by sampling strategy — a single combined rate would not be interpretable";
+  } else {
+    kAbove.textContent = `${Math.round(100 * above / comparable.length)} %`;
+    kAbove.style.fontSize = "";
+    kAboveLabel.textContent = `above reference threshold (${lab("sampling_strategy", F.g).toLowerCase()})`;
+  }
   document.getElementById("k-countries").textContent = new Set(rows.map(r => r[C.o]).filter(x => x != null)).size;
   const ppm = rows.filter(r => r[C.u] != null && D.unit[r[C.u]] === "ppm" && !r[C.n]).map(r => r[C.v]);
   document.getElementById("k-max").textContent = ppm.length ? fmt(Math.max(...ppm)) : "—";

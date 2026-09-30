@@ -73,6 +73,8 @@ def load_fda():
             "reason": reason[:300],
             "severity": r.get("classification"),
             "url": None,
+            "match_type": "reason_for_recall",
+            "completeness": "confirmed",
         })
     return pd.DataFrame(rows)
 
@@ -101,6 +103,8 @@ def load_cpsc():
             "reason": (hazards or title)[:300],
             "severity": None,
             "url": r.get("URL"),
+            "match_type": "title_or_hazard",
+            "completeness": "confirmed",
         })
     return pd.DataFrame(rows)
 
@@ -148,6 +152,10 @@ def load_rasff():
                        + (n.get("riskDecision") or {}).get("description", ""))[:300],
             "severity": (n.get("riskDecision") or {}).get("description"),
             "url": f"https://webgate.ec.europa.eu/rasff-window/screen/notification/{n.get('notifId')}",
+            # How this alert was found. The RASFF API cannot filter by hazard, so
+            # the subject line is all we can match on: the count is a floor.
+            "match_type": "subject_line",
+            "completeness": "floor",
         })
     return pd.DataFrame(rows)
 

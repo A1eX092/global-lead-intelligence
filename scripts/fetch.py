@@ -1,5 +1,8 @@
 """Download the raw source files into data/raw/."""
 from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
 import shutil
 import ssl
 from urllib.request import Request, urlopen
@@ -7,6 +10,7 @@ from urllib.request import Request, urlopen
 import certifi
 
 RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
+MANIFEST = RAW / "manifest.json"
 
 SOURCES = {
     # Pure Earth, Rapid Market Screening (CC-BY 4.0) — https://zenodo.org/records/10444602
@@ -34,15 +38,32 @@ SOURCES = {
 
 
 def main():
+    """Download every source and record exactly what was retrieved, and when.
+
+    The manifest is what makes a result citable: sources change under your feet
+    (NYC updates its dataset continuously), so a number published today can only
+    be reproduced if the exact snapshot is identified.
+    """
     RAW.mkdir(parents=True, exist_ok=True)
     context = ssl.create_default_context(cafile=certifi.where())
+    manifest = []
     for name, url in SOURCES.items():
         print(f"→ {name}")
-        (RAW / name).parent.mkdir(parents=True, exist_ok=True)
+        path = RAW / name
+        path.parent.mkdir(parents=True, exist_ok=True)
         # some servers (Our World in Data) reject requests without a User-Agent
-        request = Request(url, headers={"User-Agent": "lead-project/0.1 (open data harmonisation)"})
-        with urlopen(request, context=context) as response, open(RAW / name, "wb") as out:
+        request = Request(url, headers={"User-Agent": "global-lead-intelligence/0.2 (open data harmonisation)"})
+        with urlopen(request, context=context) as response, open(path, "wb") as out:
             shutil.copyfileobj(response, out)
+        manifest.append({
+            "file": name,
+            "source_url": url,
+            "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "bytes": path.stat().st_size,
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        })
+    MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n")
+    print(f"manifest → {MANIFEST.relative_to(RAW.parent.parent)}")
 
 
 if __name__ == "__main__":

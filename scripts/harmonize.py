@@ -18,6 +18,8 @@ Schema (one row = one lead measurement on one product):
   method              xrf | laboratory
   unit                ppm | mg/cm2 | mg/l
   lead_value          measured value in its own unit (for "< X" results, X is the detection limit)
+  measurement_operator  "=" | "<" — "<" means the true value is below lead_value, not equal to it
+  detection_limit     detection limit when the source reports one
   lead_ppm            value in ppm where the unit allows it (ppm, ppb)
   non_detect          True when below the detection limit
   result_status       detected | non_detected | missing — "missing" is NOT "non-detected"
@@ -25,6 +27,9 @@ Schema (one row = one lead measurement on one product):
   sampling_raw        the source's own wording for that strategy, kept verbatim
   reference_ppm       INDICATIVE reference threshold for the category (from Pure Earth RMS)
   reference_basis     where the threshold comes from — never a legal limit, see REFERENCE_BASIS
+  original_value      the value exactly as published by the source, before any conversion
+  original_unit       the unit as published (ppb rows are converted to ppm in lead_value)
+  schema_version      version of this schema, so a citation can name what it used
   above_reference     True/False when comparable, empty otherwise
 """
 from pathlib import Path
@@ -54,6 +59,7 @@ REFERENCE_PPM = {
     "staple_food": 0.2,
 }
 
+SCHEMA_VERSION = "0.2"
 REFERENCE_BASIS = "Pure Earth RMS (indicative, not a legal limit)"
 
 # Sampling strategy: without it, comparing two countries is meaningless.
@@ -310,6 +316,10 @@ def load_rms():
         "result_status": value.map(lambda v: "missing" if pd.isna(v) else ("non_detected" if v <= 0 else "detected")),
         "sampling_strategy": "market_screening",
         "sampling_raw": "Rapid Market Screening",
+        "measurement_operator": value.map(lambda v: "=" if pd.notna(v) and v > 0 else "<"),
+        "detection_limit": pd.NA,  # not published per reading by this source
+        "original_value": value,
+        "original_unit": "ppm",
     })
 
 
@@ -360,6 +370,10 @@ def load_nyc():
         "result_status": conc.map(lambda v: "missing" if pd.isna(v) else ("non_detected" if v < 0 else "detected")),
         "sampling_strategy": n["investigation_type"].map(NYC_SAMPLING).fillna("unknown"),
         "sampling_raw": n["investigation_type"],
+        "measurement_operator": non_detect.map(lambda nd: "<" if nd else "="),
+        "detection_limit": pd.NA,  # the source reports -1, without the limit itself
+        "original_value": conc,
+        "original_unit": n["units"],
     })
 
 
@@ -412,6 +426,10 @@ def load_king_county():
              for v, nd in zip(value, non_detect)], index=k.index),
         "sampling_strategy": k["data_source"].map(KC_SAMPLING).fillna("unknown"),
         "sampling_raw": k["data_source"],
+        "measurement_operator": non_detect.map(lambda nd: "<" if nd else "="),
+        "detection_limit": value.where(non_detect),  # "<LOD" rows carry the limit itself
+        "original_value": value,
+        "original_unit": "ppm",
     })
 
 
@@ -439,6 +457,7 @@ def main():
     df["category"] = df["category"].fillna("other")
     df["reference_ppm"] = df["category"].map(REFERENCE_PPM)
     df["reference_basis"] = REFERENCE_BASIS
+    df["schema_version"] = SCHEMA_VERSION
     comparable = df["reference_ppm"].notna() & (df["lead_ppm"].notna() | df["non_detect"])
     above = (df["lead_ppm"].fillna(0) > df["reference_ppm"]) & ~df["non_detect"]
     df["above_reference"] = above.where(comparable)

@@ -1,0 +1,72 @@
+[
+  {
+    "file": "rms.xlsx",
+    "source_url": "https://zenodo.org/records/10444602/files/RMS%20XRF%20dataset%20(20240106).xlsx?download=1",
+    "retrieved_at": "2026-09-30T10:26:37+00:00",
+    "bytes": 646310,
+    "sha256": "278265c39f9efa5a084d3bddc2ee0bac7aeb41ea78bebb25cf688c7710c9d966"
+  },
+  {
+    "file": "nyc.json",
+    "source_url": "https://data.cityofnewyork.us/resource/da9u-wz3r.json?$limit=100000",
+    "retrieved_at": "2026-09-30T10:26:41+00:00",
+    "bytes": 3299082,
+    "sha256": "24eeef00bee75dd4abcf911281870f28d801b291d2303f60597445097160fb52"
+  },
+  {
+    "file": "kingcounty.json",
+    "source_url": "https://data.kingcounty.gov/resource/i6sy-ckp7.json?$limit=100000",
+    "retrieved_at": "2026-09-30T10:26:42+00:00",
+    "bytes": 707934,
+    "sha256": "d317c8762493abe0d7f341ea22226ebf8be9f173cb838ffba87dab3ee7bbff80"
+  },
+  {
+    "file": "ipen/lead-paint-over-90ppm.csv",
+    "source_url": "https://ourworldindata.org/grapher/lead-paint-over-90ppm.csv?csvType=full&useColumnShortNames=true",
+    "retrieved_at": "2026-09-30T10:26:43+00:00",
+    "bytes": 1248,
+    "sha256": "5f17dec34166cfb42b70588bde740aae1b3e320d1477cd6052aa8f6305c88779"
+  },
+  {
+    "file": "ipen/lead-paint-over-600ppm.csv",
+    "source_url": "https://ourworldindata.org/grapher/lead-paint-over-600ppm.csv?csvType=full&useColumnShortNames=true",
+    "retrieved_at": "2026-09-30T10:26:43+00:00",
+    "bytes": 1247,
+    "sha256": "fd3ac43bb83a57af84fed402c25b800bbb0de6024a6f9b075517884bbcf6732b"
+  },
+  {
+    "file": "ipen/lead-paint-over-10000ppm.csv",
+    "source_url": "https://ourworldindata.org/grapher/lead-paint-over-10000ppm.csv?csvType=full&useColumnShortNames=true",
+    "retrieved_at": "2026-09-30T10:26:43+00:00",
+    "bytes": 1202,
+    "sha256": "ed35df30969f19111d084e2ef646a23e03c6acb2026acb4ea90420da1d8df913"
+  },
+  {
+    "file": "ipen/legal-controls-lead-paint.csv",
+    "source_url": "https://ourworldindata.org/grapher/legal-controls-lead-paint.csv?csvType=full&useColumnShortNames=true",
+    "retrieved_at": "2026-09-30T10:26:43+00:00",
+    "bytes": 3591,
+    "sha256": "46f713d771d2d303b054d243c120a2581550171055f512a507709a5c5bca4d28"
+  },
+  {
+    "file": "who/leadcontrol.json",
+    "source_url": "https://ghoapi.azureedge.net/api/LEADCONTROL",
+    "retrieved_at": "2026-09-30T10:26:43+00:00",
+    "bytes": 120230,
+    "sha256": "e4378e9c37bb8cd7a3beb8de85400b81054e5c5c44a9081112f4d7543b0742ea"
+  },
+  {
+    "file": "recalls/fda.json",
+    "source_url": "https://api.fda.gov/food/enforcement.json?search=reason_for_recall:\"lead\"&limit=1000",
+    "retrieved_at": "2026-09-30T10:26:45+00:00",
+    "bytes": 355467,
+    "sha256": "cbf1badc0929a04ae81d5af9d6c12e74e51b9aadcaf128a29b4b751dfb507acc"
+  },
+  {
+    "file": "recalls/cpsc.json",
+    "source_url": "https://www.saferproducts.gov/RestWebServices/Recall?format=json&RecallTitle=lead",
+    "retrieved_at": "2026-09-30T10:26:45+00:00",
+    "bytes": 941059,
+    "sha256": "7238226418e41de308f1e390d72c60e7a1426c12706dd206cf5dce815b317291"
+  }
+]
