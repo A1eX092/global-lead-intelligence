@@ -20,6 +20,9 @@ SOURCES = {
     "ipen/lead-paint-over-600ppm.csv": "https://ourworldindata.org/grapher/lead-paint-over-600ppm.csv?csvType=full&useColumnShortNames=true",
     "ipen/lead-paint-over-10000ppm.csv": "https://ourworldindata.org/grapher/lead-paint-over-10000ppm.csv?csvType=full&useColumnShortNames=true",
     "ipen/legal-controls-lead-paint.csv": "https://ourworldindata.org/grapher/legal-controls-lead-paint.csv?csvType=full&useColumnShortNames=true",
+    # OMS (Global Health Observatory) : lois sur la peinture au plomb, 195 pays,
+    # avec l'année d'entrée en vigueur — plus complet que la reprise d'OWID
+    "who/leadcontrol.json": "https://ghoapi.azureedge.net/api/LEADCONTROL",
     # Rappels officiels (domaine public) : FDA (alimentaire) et CPSC (produits de consommation)
     "recalls/fda.json": 'https://api.fda.gov/food/enforcement.json?search=reason_for_recall:"lead"&limit=1000',
     "recalls/cpsc.json": "https://www.saferproducts.gov/RestWebServices/Recall?format=json&RecallTitle=lead",

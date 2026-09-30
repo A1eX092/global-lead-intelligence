@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lead Project</title>
+<title>Global Lead Intelligence</title>
 <style>
 :root {
   --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --line: #e3e2dd;
@@ -59,10 +59,10 @@ button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid
 </head>
 <body>
 <main>
-  <h1>Lead Project</h1>
-  <p class="sub" style="margin-bottom:4px">Plomb dans les produits de consommation : données publiques harmonisées.</p>
+  <h1>Global Lead Intelligence</h1>
+  <p class="sub" style="margin-bottom:4px">Open evidence on lead contamination in consumer products — plomb dans les produits de consommation, données publiques harmonisées.</p>
   <p class="sub">Prototype : six sources publiques harmonisées dans un schéma commun — 15 159 mesures, 167 fiches pays, 904 rappels et alertes. Données générées le <span id="gen"></span>.</p>
-  <div class="warn"><b>À lire avant d'interpréter :</b> les sources ne sont pas comparables telles quelles. Les services de santé américains testent surtout des produits <i>suspects</i> (biais vers le haut). Pure Earth utilise un appareil XRF sur le terrain, moins précis qu'un laboratoire. Les seuils de référence sont indicatifs (repris de Pure Earth) et ne sont pas des normes légales.</div>
+  <div class="warn"><b>À lire avant d'interpréter :</b> ces données décrivent la <b>contamination de produits</b>, pas l'exposition des personnes — celle-ci dépend de la quantité consommée, de la fréquence et de la voie d'absorption. Les sources ne sont pas comparables telles quelles : <b>41 % des mesures proviennent d'enquêtes menées après une intoxication</b>, donc de produits déjà suspects (filtre « Échantillonnage » ci-dessous). Pure Earth utilise un appareil XRF de terrain, moins précis qu'un laboratoire. Les seuils de référence sont indicatifs (repris de Pure Earth) et ne sont pas des normes légales.</div>
 
   <div class="filters">
     <div><label for="f-source">Source</label><select id="f-source"></select></div>
@@ -70,6 +70,7 @@ button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid
     <div><label for="f-origin">Pays d'origine</label><select id="f-origin"></select></div>
     <div><label for="f-sampled">Pays de prélèvement</label><select id="f-sampled"></select></div>
     <div><label for="f-method">Méthode</label><select id="f-method"></select></div>
+    <div><label for="f-sampling">Échantillonnage</label><select id="f-sampling"></select></div>
     <div><label for="f-q">Produit ou marque</label><input id="f-q" type="search" placeholder="ex. turmeric, pot…"></div>
   </div>
 
@@ -93,7 +94,7 @@ button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid
       <thead><tr><th>Pays de prélèvement</th><th>Mesures</th><th>Au-dessus du seuil</th><th>Catégories les plus touchées</th><th>Peintures &gt; 90 ppm</th><th>Peintures &gt; 10 000 ppm</th><th>Loi sur la peinture</th></tr></thead>
       <tbody id="country-rows"></tbody>
     </table></div>
-    <p class="hint">Les colonnes « peintures » viennent des études IPEN compilées par Our World in Data (part des peintures décoratives testées dépassant le seuil). « Loi » = contrôle légal contraignant sur la peinture au plomb (suivi OMS/PNUE, 2023). Cliquer sur un pays pour filtrer.</p>
+    <p class="hint">Les colonnes « peintures » viennent des études IPEN compilées par Our World in Data (part des peintures décoratives testées dépassant le seuil). « Loi » = contrôle légal contraignant sur la peinture au plomb, avec son année d'entrée en vigueur (OMS, indicateur LEADCONTROL : 195 pays, 1977-2024). Cliquer sur un pays pour filtrer.</p>
   </section>
 
   <section class="panel">
@@ -130,12 +131,16 @@ const LABELS = {
     ceramic_tableware: "Vaisselle céramique", metal_cookware: "Ustensiles en métal", plastic_foodware: "Vaisselle plastique",
     tableware: "Vaisselle (matière inconnue)", toys_children: "Jouets / enfants", jewelry: "Bijoux", paint: "Peintures", animal_feed: "Aliments pour animaux", game_meat: "Gibier (plomb de chasse)", other: "Autres" },
   method: { xrf: "XRF (terrain)", laboratory: "Laboratoire" },
+  sampling_strategy: {
+    market_screening: "Marchés (systématique)", case_investigation: "Enquête après intoxication",
+    store_survey: "Relevé en magasin", community_event: "Objets apportés par des habitants",
+    research: "Protocole de recherche", unknown: "Non documenté" },
 };
 const RECALL_SOURCE = { cpsc: "CPSC (États-Unis)", fda_food: "FDA (États-Unis)", rasff: "RASFF (UE)" };
 const lab = (dim, i) => i == null ? "—" : ((LABELS[dim] || {})[D[dim][i]] || D[dim][i]);
-const F = { s: null, c: null, o: null, k: null, m: null, q: "" };
-const sel = { s: "f-source", c: "f-cat", o: "f-origin", k: "f-sampled", m: "f-method" };
-const dimOf = { s: "source", c: "category", o: "origin_country", k: "sampled_country", m: "method" };
+const F = { s: null, c: null, o: null, k: null, m: null, g: null, q: "" };
+const sel = { s: "f-source", c: "f-cat", o: "f-origin", k: "f-sampled", m: "f-method", g: "f-sampling" };
+const dimOf = { s: "source", c: "category", o: "origin_country", k: "sampled_country", m: "method", g: "sampling_strategy" };
 
 function fillSelect(key) {
   const el = document.getElementById(sel[key]);
@@ -151,7 +156,7 @@ function filtered() {
   const q = F.q.trim().toLowerCase();
   return DATA.rows.filter(r =>
     (F.s == null || r[C.s] === F.s) && (F.c == null || r[C.c] === F.c) && (F.o == null || r[C.o] === F.o) &&
-    (F.k == null || r[C.k] === F.k) && (F.m == null || r[C.m] === F.m) &&
+    (F.k == null || r[C.k] === F.k) && (F.m == null || r[C.m] === F.m) && (F.g == null || r[C.g] === F.g) &&
     (!q || r[C.p].toLowerCase().includes(q) || r[C.b].toLowerCase().includes(q)));
 }
 
@@ -247,7 +252,7 @@ function renderCountries(rows) {
 
   document.getElementById("country-rows").innerHTML = list.map(({ k, g, ctx, cats }) => {
     const share = g.comp ? `${Math.round(100 * g.above / g.comp)} %` : "—";
-    const law = ctx.law == null ? "—" : ctx.law ? "Oui" : `<span class="tag hi">Non</span>`;
+    const law = ctx.law == null ? "—" : ctx.law ? (ctx.law_year ? `Oui (${ctx.law_year})` : "Oui") : `<span class="tag hi">Non</span>`;
     return `<tr data-k="${k}" style="cursor:pointer"><td>${lab("sampled_country", k)}</td>
       <td class="v">${g.n.toLocaleString("fr-FR")}</td><td class="v">${share}</td>
       <td>${cats || "—"}</td><td class="v">${ctx.p90 != null ? ctx.p90 + " %" : "—"}</td>

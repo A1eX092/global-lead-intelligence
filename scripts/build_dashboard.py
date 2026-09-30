@@ -45,6 +45,7 @@ def country_context(names):
             "p10k": none_if_nan(row["paint_over_10000ppm_pct"]),
             "year": none_if_nan(row["paint_over_90ppm_pct_year"]),
             "law": None if pd.isna(row["lead_paint_law"]) else bool(row["lead_paint_law"]),
+            "law_year": none_if_nan(row.get("lead_paint_law_year")),
         }
         if any(v is not None for v in entry.values()):
             out[name] = entry
@@ -71,6 +72,7 @@ def main():
         "o": encode("origin_country"),
         "k": encode("sampled_country"),
         "m": encode("method"),
+        "g": encode("sampling_strategy"),
         "u": encode("unit"),
         "p": d["product_name"].fillna("").astype(str).str.slice(0, 80),
         "b": d["brand"].fillna(d["manufacturer"]).fillna("").astype(str).str.slice(0, 50),

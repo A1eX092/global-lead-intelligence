@@ -1,168 +1,198 @@
-country,iso3,paint_over_90ppm_pct,paint_over_90ppm_pct_year,paint_over_600ppm_pct,paint_over_600ppm_pct_year,paint_over_10000ppm_pct,paint_over_10000ppm_pct_year,lead_paint_law,lead_paint_law_year
-Afghanistan,AFG,,,,,,,False,2023.0
-Albania,ALB,,,,,,,True,2023.0
-Algeria,DZA,,,,,,,True,2023.0
-Andorra,AND,,,,,,,False,2023.0
-Angola,AGO,,,,,,,False,2023.0
-Antigua and Barbuda,ATG,,,,,,,False,2023.0
-Argentina,ARG,14.0,2017.0,12.0,2017.0,10.0,2017.0,True,2023.0
-Armenia,ARM,59.0,2016.0,57.0,2016.0,18.0,2016.0,True,2023.0
-Australia,AUS,,,,,,,True,2023.0
-Austria,AUT,,,,,,,True,2023.0
-Azerbaijan,AZE,77.0,2013.0,67.0,2013.0,7.0,2013.0,False,2023.0
-Bahrain,BHR,,,,,,,False,2023.0
-Bangladesh,BGD,32.0,2021.0,25.0,2021.0,10.0,2021.0,True,2023.0
-Barbados,BRB,,,,,,,False,2023.0
-Belarus,BLR,75.0,2016.0,62.0,2016.0,19.0,2016.0,True,2023.0
-Belgium,BEL,,,,,,,True,2023.0
-Belize,BLZ,,,,,,,False,2023.0
-Benin,BEN,79.0,2017.0,71.0,2017.0,36.0,2017.0,False,2023.0
-Bhutan,BTN,,,,,,,False,2023.0
-Bosnia and Herzegovina,BIH,,,,,,,False,2023.0
-Brazil,BRA,35.0,2014.0,30.0,2014.0,10.0,2014.0,True,2023.0
-Bulgaria,BGR,,,,,,,True,2023.0
-Burkina Faso,BFA,,,,,,,False,2023.0
-Burundi,BDI,,,,,,,False,2023.0
-Cambodia,KHM,,,,,,,False,2023.0
-Cameroon,CMR,43.0,2017.0,40.0,2017.0,15.0,2017.0,True,2023.0
-Canada,CAN,,,,,,,True,2023.0
-Central African Republic,CAF,,,,,,,False,2023.0
-Chad,TCD,,,,,,,False,2023.0
-Chile,CHL,4.0,2013.0,4.0,2013.0,0.0,2013.0,True,2023.0
-China,CHN,70.0,2016.0,50.0,2016.0,34.0,2016.0,True,2023.0
-Colombia,COL,72.0,2016.0,64.0,2016.0,59.0,2016.0,True,2023.0
-Comoros,COM,,,,,,,False,2023.0
-Congo,COG,,,,,,,False,2023.0
-Costa Rica,CRI,,,,,,,True,2023.0
-Cote d'Ivoire,CIV,63.0,2017.0,59.0,2017.0,27.0,2017.0,False,2023.0
-Croatia,HRV,,,,,,,True,2023.0
-Cuba,CUB,,,,,,,True,2023.0
-Cyprus,CYP,,,,,,,True,2023.0
-Czechia,CZE,,,,,,,True,2023.0
-Democratic Republic of Congo,COD,,,,,,,False,2023.0
-Denmark,DNK,,,,,,,True,2023.0
-Djibouti,DJI,,,,,,,False,2023.0
-Dominica,DMA,,,,,,,True,2023.0
-Ecuador,ECU,70.0,2009.0,60.0,2009.0,,,True,2023.0
-Egypt,EGY,62.0,2017.0,26.0,2017.0,3.0,2017.0,True,2023.0
-El Salvador,SLV,,,,,,,False,2023.0
-Estonia,EST,,,,,,,True,2023.0
-Eswatini,SWZ,,,,,,,False,2023.0
-Ethiopia,ETH,75.0,2017.0,72.0,2017.0,42.0,2017.0,True,2023.0
-Fiji,FJI,,,,,,,False,2023.0
-Finland,FIN,,,,,,,True,2023.0
-France,FRA,,,,,,,True,2023.0
-Gabon,GAB,,,,,,,False,2023.0
-Gambia,GMB,62.0,2018.0,59.0,2018.0,41.0,2018.0,False,2023.0
-Georgia,GEO,38.0,2016.0,32.0,2016.0,11.0,2016.0,True,2023.0
-Germany,DEU,,,,,,,True,2023.0
-Ghana,GHA,33.0,2013.0,28.0,2013.0,17.0,2013.0,False,2023.0
-Greece,GRC,,,,,,,True,2023.0
-Guatemala,GTM,,,,,,,False,2023.0
-Guinea,GIN,28.0,2017.0,6.0,2017.0,0.0,2017.0,False,2023.0
-Guinea-Bissau,GNB,,,,,,,False,2023.0
-Guyana,GUY,,,,,,,True,2023.0
-Haiti,HTI,,,,,,,False,2023.0
-Honduras,HND,,,,,,,False,2023.0
-Hungary,HUN,,,,,,,True,2023.0
-Iceland,ISL,,,,,,,True,2023.0
-India,IND,91.0,2020.0,78.0,2020.0,46.0,2020.0,True,2023.0
-Indonesia,IDN,76.0,2021.0,71.0,2021.0,41.0,2021.0,,
-Iraq,IRQ,42.0,2018.0,28.0,2018.0,5.0,2018.0,True,2023.0
-Ireland,IRL,,,,,,,True,2023.0
-Israel,ISR,,,,,,,True,2023.0
-Italy,ITA,,,,,,,True,2023.0
-Jamaica,JAM,0.0,2018.0,0.0,2018.0,0.0,2018.0,True,2023.0
-Japan,JPN,,,,,,,False,2023.0
-Jordan,JOR,18.0,2012.0,12.0,2012.0,0.0,2012.0,True,2023.0
-Kazakhstan,KAZ,69.0,2016.0,53.0,2016.0,13.0,2016.0,True,2023.0
-Kenya,KEN,69.0,2017.0,55.0,2017.0,33.0,2017.0,True,2023.0
-Kuwait,KWT,,,,,,,True,2023.0
-Kyrgyzstan,KGZ,69.0,2016.0,55.0,2016.0,8.0,2016.0,True,2023.0
-Laos,LAO,,,,,,,True,2023.0
-Latvia,LVA,,,,,,,True,2023.0
-Lebanon,LBN,80.0,2015.0,73.0,2015.0,53.0,2015.0,True,2023.0
-Lesotho,LSO,,,,,,,False,2023.0
-Liberia,LBR,,,,,,,False,2023.0
-Liechtenstein,LIE,,,,,,,True,2023.0
-Lithuania,LTU,,,,,,,True,2023.0
-Luxembourg,LUX,,,,,,,True,2023.0
-Madagascar,MDG,,,,,,,False,2023.0
-Malawi,MWI,,,,,,,True,2023.0
-Malaysia,MYS,46.0,2016.0,41.0,2016.0,31.0,2016.0,False,2023.0
-Maldives,MDV,,,,,,,False,2023.0
-Mali,MLI,,,,,,,False,2023.0
-Malta,MLT,,,,,,,True,2023.0
-Mauritius,MUS,,,,,,,False,2023.0
-Mexico,MEX,45.0,2018.0,44.0,2018.0,27.0,2018.0,True,2023.0
-Moldova,MDA,57.0,2016.0,36.0,2016.0,18.0,2016.0,False,2023.0
-Monaco,MCO,,,,,,,True,2023.0
-Mongolia,MNG,70.0,2017.0,48.0,2017.0,20.0,2017.0,False,2023.0
-Montenegro,MNE,,,,,,,True,2023.0
-Morocco,MAR,39.0,2017.0,39.0,2017.0,18.0,2017.0,True,2023.0
-Mozambique,MOZ,25.0,2017.0,25.0,2017.0,12.0,2017.0,False,2023.0
-Myanmar,MMR,,,,,,,False,2023.0
-Nepal,NPL,45.0,2021.0,33.0,2021.0,11.0,2021.0,True,2023.0
-Netherlands,NLD,,,,,,,True,2023.0
-New Zealand,NZL,,,,,,,True,2023.0
-Nicaragua,NIC,,,,,,,False,2023.0
-Niger,NER,,,,,,,False,2023.0
-Nigeria,NGA,74.0,2017.0,72.0,2017.0,54.0,2017.0,False,2023.0
-North Macedonia,MKD,,,,,,,True,2023.0
-Norway,NOR,,,,,,,True,2023.0
-Oman,OMN,,,,,,,True,2023.0
-Pakistan,PAK,60.0,2017.0,55.0,2017.0,24.0,2017.0,True,2023.0
-Palau,PLW,,,,,,,False,2023.0
-Panama,PAN,,,,,,,True,2023.0
-Paraguay,PRY,27.0,2015.0,27.0,2015.0,20.0,2015.0,True,2023.0
-Peru,PER,90.0,2009.0,80.0,2009.0,,,True,2023.0
-Philippines,PHL,31.0,2021.0,22.0,2021.0,19.0,2021.0,True,2023.0
-Poland,POL,,,,,,,True,2023.0
-Portugal,PRT,,,,,,,True,2023.0
-Qatar,QAT,,,,,,,True,2023.0
-Romania,ROU,,,,,,,True,2023.0
-Russia,RUS,61.0,2016.0,49.0,2016.0,6.0,2016.0,True,2023.0
-Rwanda,RWA,,,,,,,False,2023.0
-Saint Kitts and Nevis,KNA,,,,,,,False,2023.0
-Saint Lucia,LCA,,,,,,,False,2023.0
-Samoa,WSM,,,,,,,False,2023.0
-Sao Tome and Principe,STP,,,,,,,False,2023.0
-Saudi Arabia,SAU,,,,,,,True,2023.0
-Senegal,SEN,86.0,2009.0,76.0,2009.0,19.0,2009.0,False,2023.0
-Serbia,SRB,,,,,,,True,2023.0
-Seychelles,SYC,68.0,2009.0,61.0,2009.0,43.0,2009.0,,
-Sierra Leone,SLE,,,,,,,False,2023.0
-Singapore,SGP,44.0,2009.0,37.0,2009.0,7.0,2009.0,False,2023.0
-Slovakia,SVK,,,,,,,True,2023.0
-Slovenia,SVN,,,,,,,True,2023.0
-Solomon Islands,SLB,,,,,,,False,2023.0
-South Africa,ZAF,38.0,2009.0,34.0,2009.0,31.0,2009.0,True,2023.0
-South Korea,KOR,17.0,2019.0,13.0,2019.0,9.0,2019.0,True,2023.0
-Spain,ESP,,,,,,,True,2023.0
-Sri Lanka,LKA,14.0,2021.0,3.0,2021.0,0.0,2021.0,True,2023.0
-Sudan,SDN,64.0,2017.0,56.0,2017.0,28.0,2017.0,False,2023.0
-Suriname,SUR,,,,,,,False,2023.0
-Sweden,SWE,,,,,,,True,2023.0
-Switzerland,CHE,,,,,,,True,2023.0
-Syria,SYR,,,,,,,False,2023.0
-Taiwan,TWN,70.0,2016.0,66.0,2016.0,47.0,2016.0,,
-Tajikistan,TJK,94.0,2016.0,82.0,2016.0,20.0,2016.0,False,2023.0
-Tanzania,TZA,46.0,2017.0,37.0,2017.0,22.0,2017.0,True,2023.0
-Thailand,THA,62.0,2015.0,58.0,2015.0,40.0,2015.0,True,2023.0
-Timor,,,,,,,,False,2023.0
-Togo,TGO,30.0,2017.0,15.0,2017.0,7.0,2017.0,False,2023.0
-Trinidad and Tobago,TTO,,,,,,,True,2023.0
-Tunisia,TUN,70.0,2013.0,63.0,2013.0,27.0,2013.0,False,2023.0
-Turkey,TUR,,,,,,,False,2023.0
-Tuvalu,TUV,,,,,,,False,2023.0
-Uganda,UGA,67.0,2017.0,57.0,2017.0,37.0,2017.0,False,2023.0
-Ukraine,UKR,30.0,2016.0,26.0,2016.0,15.0,2016.0,True,2023.0
-United Arab Emirates,ARE,,,,,,,True,2023.0
-United Kingdom,GBR,,,,,,,True,2023.0
-United States,USA,,,,,,,True,2023.0
-Uruguay,URY,0.0,2013.0,0.0,2013.0,0.0,2013.0,True,2023.0
-Vanuatu,VUT,,,,,,,False,2023.0
-Vietnam,VNM,18.0,2021.0,18.0,2021.0,8.0,2021.0,True,2023.0
-Yemen,YEM,,,,,,,False,2023.0
-Zambia,ZMB,36.0,2017.0,33.0,2017.0,18.0,2017.0,False,2023.0
-Zimbabwe,ZWE,,,,,,,False,2023.0
+country,iso3,paint_over_90ppm_pct,paint_over_90ppm_pct_year,paint_over_600ppm_pct,paint_over_600ppm_pct_year,paint_over_10000ppm_pct,paint_over_10000ppm_pct_year,lead_paint_law_owid,lead_paint_law_owid_year,lead_paint_law,lead_paint_law_year
+Afghanistan,AFG,,,,,,,False,2023.0,False,
+Albania,ALB,,,,,,,True,2023.0,True,2019
+Algeria,DZA,,,,,,,True,2023.0,True,1997
+Andorra,AND,,,,,,,False,2023.0,False,
+Angola,AGO,,,,,,,False,2023.0,False,
+Antigua and Barbuda,ATG,,,,,,,False,2023.0,False,
+Argentina,ARG,14.0,2017.0,12.0,2017.0,10.0,2017.0,True,2023.0,True,2009
+Armenia,ARM,59.0,2016.0,57.0,2016.0,18.0,2016.0,True,2023.0,True,2014
+Australia,AUS,,,,,,,True,2023.0,True,2008
+Austria,AUT,,,,,,,True,2023.0,True,2008
+Azerbaijan,AZE,77.0,2013.0,67.0,2013.0,7.0,2013.0,False,2023.0,False,
+BHS,BHS,,,,,,,,,,
+BOL,BOL,,,,,,,,,,
+BRN,BRN,,,,,,,,,,
+BWA,BWA,,,,,,,,,,
+Bahrain,BHR,,,,,,,False,2023.0,False,
+Bangladesh,BGD,32.0,2021.0,25.0,2021.0,10.0,2021.0,True,2023.0,True,2018
+Barbados,BRB,,,,,,,False,2023.0,False,
+Belarus,BLR,75.0,2016.0,62.0,2016.0,19.0,2016.0,True,2023.0,True,2010
+Belgium,BEL,,,,,,,True,2023.0,True,2008
+Belize,BLZ,,,,,,,False,2023.0,False,
+Benin,BEN,79.0,2017.0,71.0,2017.0,36.0,2017.0,False,2023.0,False,
+Bhutan,BTN,,,,,,,False,2023.0,False,
+Bosnia and Herzegovina,BIH,,,,,,,False,2023.0,False,
+Brazil,BRA,35.0,2014.0,30.0,2014.0,10.0,2014.0,True,2023.0,True,2008
+Bulgaria,BGR,,,,,,,True,2023.0,True,2008
+Burkina Faso,BFA,,,,,,,False,2023.0,False,
+Burundi,BDI,,,,,,,False,2023.0,False,
+COK,COK,,,,,,,,,,
+CPV,CPV,,,,,,,,,,
+Cambodia,KHM,,,,,,,False,2023.0,False,
+Cameroon,CMR,43.0,2017.0,40.0,2017.0,15.0,2017.0,True,2023.0,True,2017
+Canada,CAN,,,,,,,True,2023.0,True,2016
+Central African Republic,CAF,,,,,,,False,2023.0,False,
+Chad,TCD,,,,,,,False,2023.0,False,
+Chile,CHL,4.0,2013.0,4.0,2013.0,0.0,2013.0,True,2023.0,True,1997
+China,CHN,70.0,2016.0,50.0,2016.0,34.0,2016.0,True,2023.0,True,2020
+Colombia,COL,72.0,2016.0,64.0,2016.0,59.0,2016.0,True,2023.0,True,2020
+Comoros,COM,,,,,,,False,2023.0,False,
+Congo,COG,,,,,,,False,2023.0,False,
+Costa Rica,CRI,,,,,,,True,2023.0,True,1995
+Cote d'Ivoire,CIV,63.0,2017.0,59.0,2017.0,27.0,2017.0,False,2023.0,False,
+Croatia,HRV,,,,,,,True,2023.0,True,2008
+Cuba,CUB,,,,,,,True,2023.0,True,1984
+Cyprus,CYP,,,,,,,True,2023.0,True,2008
+Czechia,CZE,,,,,,,True,2023.0,True,2008
+DOM,DOM,,,,,,,,,,
+Democratic Republic of Congo,COD,,,,,,,False,2023.0,False,
+Denmark,DNK,,,,,,,True,2023.0,True,2008
+Djibouti,DJI,,,,,,,False,2023.0,False,
+Dominica,DMA,,,,,,,True,2023.0,True,2007
+ERI,ERI,,,,,,,,,,
+Ecuador,ECU,70.0,2009.0,60.0,2009.0,,,True,2023.0,True,2013
+Egypt,EGY,62.0,2017.0,26.0,2017.0,3.0,2017.0,True,2023.0,True,2022
+El Salvador,SLV,,,,,,,False,2023.0,False,
+Estonia,EST,,,,,,,True,2023.0,True,2008
+Eswatini,SWZ,,,,,,,False,2023.0,False,
+Ethiopia,ETH,75.0,2017.0,72.0,2017.0,42.0,2017.0,True,2023.0,True,2018
+FSM,FSM,,,,,,,,,,
+Fiji,FJI,,,,,,,False,2023.0,False,
+Finland,FIN,,,,,,,True,2023.0,True,2008
+France,FRA,,,,,,,True,2023.0,True,2008
+GNQ,GNQ,,,,,,,,,,
+GRD,GRD,,,,,,,,,,
+Gabon,GAB,,,,,,,False,2023.0,False,
+Gambia,GMB,62.0,2018.0,59.0,2018.0,41.0,2018.0,False,2023.0,False,
+Georgia,GEO,38.0,2016.0,32.0,2016.0,11.0,2016.0,True,2023.0,True,2021
+Germany,DEU,,,,,,,True,2023.0,True,2008
+Ghana,GHA,33.0,2013.0,28.0,2013.0,17.0,2013.0,False,2023.0,False,
+Greece,GRC,,,,,,,True,2023.0,True,2008
+Guatemala,GTM,,,,,,,False,2023.0,False,
+Guinea,GIN,28.0,2017.0,6.0,2017.0,0.0,2017.0,False,2023.0,False,
+Guinea-Bissau,GNB,,,,,,,False,2023.0,False,
+Guyana,GUY,,,,,,,True,2023.0,True,2004
+Haiti,HTI,,,,,,,False,2023.0,False,
+Honduras,HND,,,,,,,False,2023.0,False,
+Hungary,HUN,,,,,,,True,2023.0,True,2008
+IRN,IRN,,,,,,,,,,
+Iceland,ISL,,,,,,,True,2023.0,True,2008
+India,IND,91.0,2020.0,78.0,2020.0,46.0,2020.0,True,2023.0,True,2016
+Indonesia,IDN,76.0,2021.0,71.0,2021.0,41.0,2021.0,,,,
+Iraq,IRQ,42.0,2018.0,28.0,2018.0,5.0,2018.0,True,2023.0,True,2011
+Ireland,IRL,,,,,,,True,2023.0,True,2008
+Israel,ISR,,,,,,,True,2023.0,True,2019
+Italy,ITA,,,,,,,True,2023.0,True,2008
+Jamaica,JAM,0.0,2018.0,0.0,2018.0,0.0,2018.0,True,2023.0,True,2023
+Japan,JPN,,,,,,,False,2023.0,False,
+Jordan,JOR,18.0,2012.0,12.0,2012.0,0.0,2012.0,True,2023.0,True,2018
+KIR,KIR,,,,,,,,,,
+Kazakhstan,KAZ,69.0,2016.0,53.0,2016.0,13.0,2016.0,True,2023.0,True,2007
+Kenya,KEN,69.0,2017.0,55.0,2017.0,33.0,2017.0,True,2023.0,True,2017
+Kuwait,KWT,,,,,,,True,2023.0,True,2018
+Kyrgyzstan,KGZ,69.0,2016.0,55.0,2016.0,8.0,2016.0,True,2023.0,True,2013
+LBY,LBY,,,,,,,,,,
+Laos,LAO,,,,,,,True,2023.0,True,2021
+Latvia,LVA,,,,,,,True,2023.0,True,2008
+Lebanon,LBN,80.0,2015.0,73.0,2015.0,53.0,2015.0,True,2023.0,True,2019
+Lesotho,LSO,,,,,,,False,2023.0,False,
+Liberia,LBR,,,,,,,False,2023.0,False,
+Liechtenstein,LIE,,,,,,,True,2023.0,True,2008
+Lithuania,LTU,,,,,,,True,2023.0,True,2008
+Luxembourg,LUX,,,,,,,True,2023.0,True,2008
+MHL,MHL,,,,,,,,,,
+MRT,MRT,,,,,,,,,,
+Madagascar,MDG,,,,,,,False,2023.0,False,
+Malawi,MWI,,,,,,,True,2023.0,True,2020
+Malaysia,MYS,46.0,2016.0,41.0,2016.0,31.0,2016.0,False,2023.0,False,
+Maldives,MDV,,,,,,,False,2023.0,False,
+Mali,MLI,,,,,,,False,2023.0,False,
+Malta,MLT,,,,,,,True,2023.0,True,2008
+Mauritius,MUS,,,,,,,False,2023.0,False,
+Mexico,MEX,45.0,2018.0,44.0,2018.0,27.0,2018.0,True,2023.0,True,2013
+Moldova,MDA,57.0,2016.0,36.0,2016.0,18.0,2016.0,False,2023.0,False,
+Monaco,MCO,,,,,,,True,2023.0,True,2008
+Mongolia,MNG,70.0,2017.0,48.0,2017.0,20.0,2017.0,False,2023.0,False,
+Montenegro,MNE,,,,,,,True,2023.0,True,2012
+Morocco,MAR,39.0,2017.0,39.0,2017.0,18.0,2017.0,True,2023.0,True,2021
+Mozambique,MOZ,25.0,2017.0,25.0,2017.0,12.0,2017.0,False,2023.0,False,
+Myanmar,MMR,,,,,,,False,2023.0,False,
+NAM,NAM,,,,,,,,,,
+NIU,NIU,,,,,,,,,,
+NRU,NRU,,,,,,,,,,
+Nepal,NPL,45.0,2021.0,33.0,2021.0,11.0,2021.0,True,2023.0,True,1997
+Netherlands,NLD,,,,,,,True,2023.0,True,2008
+New Zealand,NZL,,,,,,,True,2023.0,True,2010
+Nicaragua,NIC,,,,,,,False,2023.0,False,
+Niger,NER,,,,,,,False,2023.0,False,
+Nigeria,NGA,74.0,2017.0,72.0,2017.0,54.0,2017.0,False,2023.0,False,
+North Macedonia,MKD,,,,,,,True,2023.0,True,2014
+Norway,NOR,,,,,,,True,2023.0,True,2008
+Oman,OMN,,,,,,,True,2023.0,True,2008
+PNG,PNG,,,,,,,,,,
+PRK,PRK,,,,,,,,,,
+Pakistan,PAK,60.0,2017.0,55.0,2017.0,24.0,2017.0,True,2023.0,True,2017
+Palau,PLW,,,,,,,False,2023.0,False,
+Panama,PAN,,,,,,,True,2023.0,True,1996
+Paraguay,PRY,27.0,2015.0,27.0,2015.0,20.0,2015.0,True,2023.0,True,2022
+Peru,PER,90.0,2009.0,80.0,2009.0,,,True,2023.0,True,2021
+Philippines,PHL,31.0,2021.0,22.0,2021.0,19.0,2021.0,True,2023.0,True,2013
+Poland,POL,,,,,,,True,2023.0,True,2008
+Portugal,PRT,,,,,,,True,2023.0,True,2008
+Qatar,QAT,,,,,,,True,2023.0,True,2005
+Romania,ROU,,,,,,,True,2023.0,True,2008
+Russia,RUS,61.0,2016.0,49.0,2016.0,6.0,2016.0,True,2023.0,True,2010
+Rwanda,RWA,,,,,,,False,2023.0,False,
+SMR,SMR,,,,,,,,,,
+SOM,SOM,,,,,,,,,,
+SSD,SSD,,,,,,,,,,
+Saint Kitts and Nevis,KNA,,,,,,,False,2023.0,False,
+Saint Lucia,LCA,,,,,,,False,2023.0,False,
+Samoa,WSM,,,,,,,False,2023.0,False,
+Sao Tome and Principe,STP,,,,,,,False,2023.0,False,
+Saudi Arabia,SAU,,,,,,,True,2023.0,True,2020
+Senegal,SEN,86.0,2009.0,76.0,2009.0,19.0,2009.0,False,2023.0,False,
+Serbia,SRB,,,,,,,True,2023.0,True,2015
+Seychelles,SYC,68.0,2009.0,61.0,2009.0,43.0,2009.0,,,,
+Sierra Leone,SLE,,,,,,,False,2023.0,False,
+Singapore,SGP,44.0,2009.0,37.0,2009.0,7.0,2009.0,False,2023.0,False,
+Slovakia,SVK,,,,,,,True,2023.0,True,2008
+Slovenia,SVN,,,,,,,True,2023.0,True,2008
+Solomon Islands,SLB,,,,,,,False,2023.0,False,
+South Africa,ZAF,38.0,2009.0,34.0,2009.0,31.0,2009.0,True,2023.0,True,2009
+South Korea,KOR,17.0,2019.0,13.0,2019.0,9.0,2019.0,True,2023.0,True,2022
+Spain,ESP,,,,,,,True,2023.0,True,2008
+Sri Lanka,LKA,14.0,2021.0,3.0,2021.0,0.0,2021.0,True,2023.0,True,2003
+Sudan,SDN,64.0,2017.0,56.0,2017.0,28.0,2017.0,False,2023.0,False,
+Suriname,SUR,,,,,,,False,2023.0,False,
+Sweden,SWE,,,,,,,True,2023.0,True,2008
+Switzerland,CHE,,,,,,,True,2023.0,True,2006
+Syria,SYR,,,,,,,False,2023.0,False,
+TKM,TKM,,,,,,,,,,
+TLS,TLS,,,,,,,,,False,
+TON,TON,,,,,,,,,,
+Taiwan,TWN,70.0,2016.0,66.0,2016.0,47.0,2016.0,,,,
+Tajikistan,TJK,94.0,2016.0,82.0,2016.0,20.0,2016.0,False,2023.0,False,
+Tanzania,TZA,46.0,2017.0,37.0,2017.0,22.0,2017.0,True,2023.0,True,2016
+Thailand,THA,62.0,2015.0,58.0,2015.0,40.0,2015.0,True,2023.0,True,2016
+Timor,,,,,,,,False,2023.0,,
+Togo,TGO,30.0,2017.0,15.0,2017.0,7.0,2017.0,False,2023.0,False,
+Trinidad and Tobago,TTO,,,,,,,True,2023.0,True,2012
+Tunisia,TUN,70.0,2013.0,63.0,2013.0,27.0,2013.0,False,2023.0,False,
+Turkey,TUR,,,,,,,False,2023.0,True,2024
+Tuvalu,TUV,,,,,,,False,2023.0,False,
+UZB,UZB,,,,,,,,,,
+Uganda,UGA,67.0,2017.0,57.0,2017.0,37.0,2017.0,False,2023.0,False,
+Ukraine,UKR,30.0,2016.0,26.0,2016.0,15.0,2016.0,True,2023.0,True,2021
+United Arab Emirates,ARE,,,,,,,True,2023.0,True,2014
+United Kingdom,GBR,,,,,,,True,2023.0,True,2008
+United States,USA,,,,,,,True,2023.0,True,1977
+Uruguay,URY,0.0,2013.0,0.0,2013.0,0.0,2013.0,True,2023.0,True,2011
+VCT,VCT,,,,,,,,,,
+VEN,VEN,,,,,,,,,,
+Vanuatu,VUT,,,,,,,False,2023.0,False,
+Vietnam,VNM,18.0,2021.0,18.0,2021.0,8.0,2021.0,True,2023.0,True,2020
+Yemen,YEM,,,,,,,False,2023.0,False,
+Zambia,ZMB,36.0,2017.0,33.0,2017.0,18.0,2017.0,False,2023.0,False,
+Zimbabwe,ZWE,,,,,,,False,2023.0,False,

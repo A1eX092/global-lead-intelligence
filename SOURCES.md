@@ -1,4 +1,6 @@
-# Sources et licences
+# Sources et licences — Global Lead Intelligence
+
+*Open evidence on lead contamination in consumer products*
 
 Une ligne = une source. Colonne `source` du schéma harmonisé (voir `README.md`).
 
@@ -18,6 +20,10 @@ Une ligne = une source. Colonne `source` du schéma harmonisé (voir `README.md`
 Aucune ambiguïté : la **Local Law 11 de 2012** impose que les jeux de données publiés par la ville soient disponibles « sans obligation d'enregistrement, sans licence et sans restriction d'usage », ce que confirme la FAQ du portail NYC Open Data (« no restrictions on the use of Open Data »). Les conditions générales de nyc.gov ne concernent que le site lui-même, pas les données — d'où l'absence de licence affichée sur la page du jeu de données.
 
 Réutilisation et redistribution sont donc libres, et **l'attribution n'est pas juridiquement exigée** : celle que porte ce dépôt est volontaire.
+
+## Mention exigée par New York
+
+Le DOHMH autorise les jeux de données dérivés « so long as it is done in a manner that is not misleading and does not imply endorsement of such datasets by DOHMH ». Toute publication doit donc préciser que **ce travail n'est ni validé ni approuvé par le DOHMH**.
 
 ## Règle générale
 - Garder la colonne `source` sur chaque ligne du jeu de données harmonisé : c'est ce qui rend l'attribution vérifiable.

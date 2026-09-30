@@ -9,7 +9,8 @@ Schéma (une ligne = une mesure de plomb sur un produit) :
   brand               marque (si dispo)
   manufacturer        fabricant (si dispo)
   origin_country      pays de fabrication / d'origine (nom ISO anglais), vide si inconnu
-  origin_inferred     True si l'origine a été déduite (région ou produit local), pas déclarée
+  origin_status       declared | inferred_region | assumed_local | unknown
+  origin_confidence   1.0 déclarée, 0.8 région identifiée, 0.35 supposée locale, vide sinon
   origin_raw          valeur d'origine avant normalisation
   sampled_country     pays où le produit a été acheté / prélevé
   sampled_region      région / ville de prélèvement (si dispo)
@@ -19,7 +20,11 @@ Schéma (une ligne = une mesure de plomb sur un produit) :
   lead_value          valeur mesurée dans l'unité (vide si non détecté sans limite)
   lead_ppm            valeur en ppm quand l'unité le permet (ppm, ppb)
   non_detect          True si sous la limite de détection
-  reference_ppm       seuil de référence indicatif pour la catégorie (cf. Pure Earth RMS)
+  result_status       detected | non_detected | missing — « manquant » n'est PAS « non détecté »
+  sampling_strategy   comment l'échantillon a été obtenu (voir SAMPLING) : décisif pour comparer
+  sampling_raw        libellé d'origine de la stratégie, conservé tel quel
+  reference_ppm       seuil de référence INDICATIF pour la catégorie (cf. Pure Earth RMS)
+  reference_basis     origine du seuil — jamais une norme légale, voir REFERENCE_BASIS
   above_reference     True/False si comparable, vide sinon
 """
 from pathlib import Path
@@ -47,6 +52,20 @@ REFERENCE_PPM = {
     "toys_children": 100,
     "paint": 90,
     "staple_food": 0.2,
+}
+
+REFERENCE_BASIS = "Pure Earth RMS (indicatif, pas une norme légale)"
+
+# Stratégie d'échantillonnage : sans elle, comparer deux pays n'a aucun sens.
+# Un service de santé qui teste les produits d'enfants intoxiqués trouvera
+# mécaniquement plus de plomb qu'un acheteur qui ratisse un marché.
+SAMPLING = {
+    "market_screening": "achats systématiques sur les marchés (Pure Earth)",
+    "case_investigation": "produits saisis lors d'une intoxication — fortement biaisé vers le haut",
+    "store_survey": "relevé en magasin",
+    "community_event": "objets apportés spontanément par des habitants — auto-sélection",
+    "research": "protocole de recherche",
+    "unknown": "non documenté",
 }
 
 CATEGORIES = [
@@ -181,14 +200,17 @@ NON_PLACES = re.compile(
 def resolve_regions(origin, origin_raw, sampled_country):
     """Complète les origines manquantes à partir des noms de régions.
 
-    Renvoie (origine complétée, origine_déduite). Trois cas, dans l'ordre :
+    Renvoie (origine complétée, statut, confiance). Trois cas, dans l'ordre :
       1. la région est identifiable (« East Java » → Indonesia, « Morelos » → Mexico) ;
       2. la région appartient au pays de prélèvement (« Erode » en Inde) ;
       3. le texte est un lieu non identifié mais ne dit pas « importé » : on retient
          le pays de prélèvement (produit local), en marquant l'origine comme déduite.
     """
     origin = origin.copy()
-    inferred = pd.Series(False, index=origin.index)
+    status = pd.Series("unknown", index=origin.index, dtype="object")
+    status[origin.notna()] = "declared"
+    confidence = pd.Series(pd.NA, index=origin.index, dtype="Float64")
+    confidence[origin.notna()] = 1.0
     missing = origin.isna() & origin_raw.notna()
     for i in origin.index[missing]:
         raw = str(origin_raw[i]).strip()
@@ -198,12 +220,15 @@ def resolve_regions(origin, origin_raw, sampled_country):
         sampled = sampled_country[i] if pd.notna(sampled_country[i]) else None
         # une région nommée reste exploitable même dans « Imported from Zanzibar »
         found = to_region_country(raw, None if says_imported else sampled)
+        found_status, found_confidence = "inferred_region", 0.8
         if found is None and not says_imported and sampled and re.search(r"[a-zA-Z]{3}", raw):
-            found = sampled  # lieu non identifié dans le pays de prélèvement → produit local
+            # lieu non identifié dans le pays de prélèvement → probablement un produit local
+            found, found_status, found_confidence = sampled, "assumed_local", 0.35
         if found:
             origin[i] = found
-            inferred[i] = True
-    return origin, inferred
+            status[i] = found_status
+            confidence[i] = found_confidence
+    return origin, status, confidence
 
 
 _patterns = None
@@ -258,7 +283,7 @@ def load_rms():
     # "local" = produit du pays de prélèvement
     is_local = origin_raw.astype("string").str.strip().str.lower().eq("local")
     origin = origin.where(~is_local, sampled_country)
-    origin, inferred = resolve_regions(origin, origin_raw, sampled_country)
+    origin, origin_status, origin_confidence = resolve_regions(origin, origin_raw, sampled_country)
     value = d["Highest XRF reading"]
     return pd.DataFrame({
         "source": "pure_earth_rms",
@@ -269,7 +294,8 @@ def load_rms():
         "brand": None,
         "manufacturer": None,
         "origin_country": origin,
-        "origin_inferred": inferred,
+        "origin_status": origin_status,
+        "origin_confidence": origin_confidence,
         "origin_raw": origin_raw,
         "sampled_country": sampled_country,
         "sampled_region": region,
@@ -278,7 +304,12 @@ def load_rms():
         "unit": "ppm",
         "lead_value": value,
         "lead_ppm": value,
-        "non_detect": value.fillna(0).le(0),
+        # 0 = sous la limite de détection de l'appareil XRF ; une valeur absente
+        # reste « manquante » et ne doit jamais être lue comme « non détecté »
+        "non_detect": value.notna() & value.le(0),
+        "result_status": value.map(lambda v: "missing" if pd.isna(v) else ("non_detected" if v <= 0 else "detected")),
+        "sampling_strategy": "market_screening",
+        "sampling_raw": "Rapid Market Screening",
     })
 
 
@@ -289,6 +320,11 @@ NYC_CATEGORY = {
     "Food-Candy": "sweets", "Religious powder": "religious_powder", "Other": "other", "Jewelry": "jewelry",
     "Paint Supplies": "paint",
 }
+
+
+# « How the product was obtained » (champ investigation_type du jeu new-yorkais).
+# Le sens de « A » n'est pas documenté par la ville : on ne devine pas.
+NYC_SAMPLING = {"C": "case_investigation", "S": "store_survey", "A": "unknown"}
 
 
 def load_nyc():
@@ -310,7 +346,8 @@ def load_nyc():
         "brand": None,
         "manufacturer": n["manufacturer"].where(n["manufacturer"] != "UNKNOWN OR NOT STATED"),
         "origin_country": n["made_in_country"].map(to_country),
-        "origin_inferred": False,
+        "origin_status": n["made_in_country"].map(lambda v: "declared" if to_country(v) else "unknown"),
+        "origin_confidence": n["made_in_country"].map(lambda v: 1.0 if to_country(v) else None),
         "origin_raw": n["made_in_country"],
         "sampled_country": n["purchase_country"].map(to_country),
         "sampled_region": None,
@@ -320,6 +357,9 @@ def load_nyc():
         "lead_value": value,
         "lead_ppm": ppm,
         "non_detect": non_detect,
+        "result_status": conc.map(lambda v: "missing" if pd.isna(v) else ("non_detected" if v < 0 else "detected")),
+        "sampling_strategy": n["investigation_type"].map(NYC_SAMPLING).fillna("unknown"),
+        "sampling_raw": n["investigation_type"],
     })
 
 
@@ -330,6 +370,13 @@ KC_CATEGORY = {
     "Dishware/Utensils": "tableware", "Dishware/utensils": "tableware", "Cosmetics": "cosmetics", "Food": "food_other",
     "Cosmetics - lip": "cosmetics", "Cosmetics - other": "cosmetics", "Dietary Supplement/Medications": "medicines",
     "Candy": "sweets", "Incense": "other",
+}
+
+
+KC_SAMPLING = {
+    "Community product testing event": "community_event",
+    "Research Project": "research",
+    "Case Investigation": "case_investigation",
 }
 
 
@@ -349,7 +396,8 @@ def load_king_county():
         "brand": brand,
         "manufacturer": manufacturer,
         "origin_country": k["made_in_country"].map(to_country),
-        "origin_inferred": False,
+        "origin_status": k["made_in_country"].map(lambda v: "declared" if to_country(v) else "unknown"),
+        "origin_confidence": k["made_in_country"].map(lambda v: 1.0 if to_country(v) else None),
         "origin_raw": k["made_in_country"],
         "sampled_country": "United States",
         "sampled_region": "King County, WA",
@@ -359,6 +407,11 @@ def load_king_county():
         "lead_value": value,  # pour les "<", c'est la limite de détection
         "lead_ppm": value.where(~non_detect),
         "non_detect": non_detect,
+        "result_status": pd.Series(
+            ["missing" if pd.isna(v) else ("non_detected" if nd else "detected")
+             for v, nd in zip(value, non_detect)], index=k.index),
+        "sampling_strategy": k["data_source"].map(KC_SAMPLING).fillna("unknown"),
+        "sampling_raw": k["data_source"],
     })
 
 
@@ -385,6 +438,7 @@ def main():
     df = clean_text(df)
     df["category"] = df["category"].fillna("other")
     df["reference_ppm"] = df["category"].map(REFERENCE_PPM)
+    df["reference_basis"] = REFERENCE_BASIS
     comparable = df["reference_ppm"].notna() & (df["lead_ppm"].notna() | df["non_detect"])
     above = (df["lead_ppm"].fillna(0) > df["reference_ppm"]) & ~df["non_detect"]
     df["above_reference"] = above.where(comparable)
@@ -394,9 +448,12 @@ def main():
     # Petit contrôle qualité
     print(f"{len(df)} mesures → {OUT.relative_to(ROOT)}")
     print(df.groupby("source").size().to_string())
-    known = df["origin_country"].notna().mean()
-    declared = (df["origin_country"].notna() & ~df["origin_inferred"]).mean()
-    print(f"Pays d'origine renseigné : {known:.0%} des lignes ({declared:.0%} déclaré, {known - declared:.0%} déduit)")
+    print("\nStratégie d'échantillonnage :")
+    print(df["sampling_strategy"].value_counts().to_string())
+    print("\nStatut du résultat :")
+    print(df["result_status"].value_counts().to_string())
+    print("\nOrigine :")
+    print(df["origin_status"].value_counts().to_string())
     unmatched = df.loc[df["origin_country"].isna() & df["origin_raw"].notna(), "origin_raw"].astype(str)
     unmatched = unmatched[~unmatched.str.lower().isin(["not available", "unknown or not stated", "local"])]
     print("Origines non reconnues les plus fréquentes :")
