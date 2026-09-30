@@ -1,8 +1,8 @@
-"""Récupère les notifications RASFF (alertes alimentaires de l'UE) liées au plomb.
+"""Fetch the RASFF notifications (EU food alerts) that concern lead.
 
-L'API publique de RASFF Window ne sait pas filtrer par danger : on parcourt donc
-toutes les notifications (100 par page) et on ne garde que celles dont le sujet
-mentionne le plomb. Le résultat est enregistré dans data/raw/rasff/rasff.json.
+The public RASFF Window API cannot filter by hazard, so this walks every
+notification (100 per page) and keeps those whose subject mentions lead, in
+five languages. The result is written to data/raw/rasff/rasff.json.
 """
 from pathlib import Path
 import json
@@ -16,7 +16,7 @@ import certifi
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "rasff" / "rasff.json"
 URL = "https://webgate.ec.europa.eu/rasff-window/backend/public/notification/search/consolidated/en/"
 LEAD = re.compile(r"\blead\b|\bplomb\b|\bblei\b|\bpiombo\b|\bplomo\b", re.I)
-PAGE_SIZE = 100  # maximum accepté par l'API
+PAGE_SIZE = 100  # the maximum the API accepts
 
 
 def page(number, context):
@@ -33,7 +33,7 @@ def main():
     context = ssl.create_default_context(cafile=certifi.where())
     first = page(1, context)
     total_pages, total = first["totalPages"], first["totalElements"]
-    print(f"{total} notifications RASFF, {total_pages} pages")
+    print(f"{total} RASFF notifications, {total_pages} pages")
 
     matches, scanned = [], 0
     for number in range(1, total_pages + 1):
@@ -42,12 +42,12 @@ def main():
         scanned += len(notifications)
         matches += [n for n in notifications if LEAD.search(n.get("subject") or "")]
         if number % 25 == 0 or number == total_pages:
-            print(f"  page {number}/{total_pages} — {scanned} lues, {len(matches)} sur le plomb")
-        time.sleep(0.2)  # rester poli avec le serveur
+            print(f"  page {number}/{total_pages} — {scanned} read, {len(matches)} about lead")
+        time.sleep(0.2)  # stay polite with the server
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({"scanned": scanned, "total": total, "notifications": matches}, ensure_ascii=False))
-    print(f"{len(matches)} notifications retenues → {OUT}")
+    print(f"{len(matches)} notifications kept → {OUT}")
 
 
 if __name__ == "__main__":

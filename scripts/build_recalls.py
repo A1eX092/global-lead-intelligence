@@ -1,16 +1,17 @@
-"""Construit data/recalls.csv : produits rappelés pour cause de plomb.
+"""Build data/recalls.csv: products recalled because of lead.
 
-Granularité différente des mesures : une ligne = un rappel officiel, avec le nom
-commercial du produit et l'entreprise, mais sans concentration mesurée.
+Different granularity from the measurements: one row per official recall or
+alert, carrying the commercial product name and the company, but no measured
+concentration.
 
-Sources :
-  - FDA (États-Unis), rappels alimentaires, via l'API openFDA (domaine public)
-  - CPSC (États-Unis), rappels de produits de consommation (domaine public)
-  - RASFF (Union européenne), alertes alimentaires, via l'API publique de RASFF Window
+Sources:
+  - FDA (United States), food recalls, via the openFDA API (public domain)
+  - CPSC (United States), consumer product recalls (public domain)
+  - RASFF (European Union), food alerts, via the public RASFF Window API
 
-C'est la seule famille de sources publiques qui nomme les produits (et, pour la
-FDA et la CPSC, les entreprises). Une grande partie des produits rappelés est
-fabriquée dans les pays touchés.
+This is the only family of public sources that names the products (and, for FDA
+and CPSC, the companies). Many of the recalled products are manufactured in the
+countries most affected by lead.
 """
 from pathlib import Path
 import json
@@ -23,7 +24,7 @@ RAW = ROOT / "data" / "raw" / "recalls"
 RASFF_RAW = ROOT / "data" / "raw" / "rasff"
 OUT = ROOT / "data" / "recalls.csv"
 
-# « lead » comme mot isolé : évite « leading », « leaded glass » reste pertinent
+# "lead" as a standalone word: avoids "leading" while keeping "leaded glass"
 LEAD = re.compile(r"\blead(ed)?\b", re.I)
 
 CPSC_CATEGORY = [
@@ -66,7 +67,7 @@ def load_fda():
             "date": r.get("recall_initiation_date"),
             "product": description[:200],
             "firm": r.get("recalling_firm"),
-            "origin_country": None,  # la FDA donne le pays de l'entreprise qui rappelle, pas l'origine
+            "origin_country": None,  # the FDA gives the recalling firm's country, not the product origin
             "firm_country": r.get("country"),
             "category": categorize(description, FDA_CATEGORY),
             "reason": reason[:300],
@@ -132,14 +133,14 @@ def load_rasff():
         subject = n.get("subject") or ""
         origins = [c.get("organizationName") for c in (n.get("originCountries") or []) if c.get("organizationName")]
         category_text = " ".join(filter(None, [subject, (n.get("productCategory") or {}).get("description")]))
-        date = (n.get("ecValidationDate") or "")[:10]  # format JJ-MM-AAAA
+        date = (n.get("ecValidationDate") or "")[:10]  # DD-MM-YYYY format
         day, month, year = (date.split("-") + ["", "", ""])[:3]
         rows.append({
             "source": "rasff",
             "recall_id": n.get("reference"),
             "date": f"{year}{month}{day}" if year else None,
             "product": subject[:200],
-            "firm": None,  # RASFF public ne nomme pas l'entreprise
+            "firm": None,  # public RASFF does not name the company
             "origin_country": origins[0] if origins else None,
             "firm_country": (n.get("notifyingCountry") or {}).get("organizationName"),
             "category": categorize(category_text, RASFF_CATEGORY),
@@ -152,7 +153,7 @@ def load_rasff():
 
 
 def main():
-    from harmonize import to_country  # même normalisation des pays que pour les mesures
+    from harmonize import to_country  # same country normalisation as the measurements
 
     df = pd.concat([load_fda(), load_cpsc(), load_rasff()], ignore_index=True)
     df["origin_country"] = df["origin_country"].map(to_country)
@@ -161,12 +162,12 @@ def main():
     df = df.sort_values("date", ascending=False)
     df.to_csv(OUT, index=False)
 
-    print(f"{len(df)} rappels → {OUT.relative_to(ROOT)}")
+    print(f"{len(df)} recalls → {OUT.relative_to(ROOT)}")
     print(df.groupby("source").size().to_string())
-    print(f"Période : {df['year'].min()}-{df['year'].max()}")
-    print("Pays d'origine :")
+    print(f"Period: {df['year'].min()}-{df['year'].max()}")
+    print("Countries of origin:")
     print(df["origin_country"].value_counts().head(8).to_string())
-    print("Catégories :")
+    print("Categories:")
     print(df["category"].value_counts().to_string())
 
 

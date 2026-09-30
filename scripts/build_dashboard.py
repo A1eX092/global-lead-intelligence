@@ -1,4 +1,4 @@
-"""Construit dashboard/index.html (fichier autonome, hors ligne) à partir de data/harmonized.csv."""
+"""Build dashboard/index.html (a self-contained, offline page) from data/harmonized.csv."""
 from pathlib import Path
 import json
 
@@ -12,7 +12,7 @@ TEMPLATE = Path(__file__).resolve().parent / "dashboard_template.html"
 
 
 def recalls():
-    """Rappels officiels (FDA, CPSC) : pas de concentration, mais des noms de produits."""
+    """Official recalls (FDA, CPSC, RASFF): no concentrations, but named products."""
     path = ROOT / "data" / "recalls.csv"
     if not path.exists():
         return []
@@ -23,10 +23,10 @@ def recalls():
 
 
 def country_context(names):
-    """Contexte par pays (peintures IPEN + loi), indexé par nom de pays utilisé ici.
+    """Per-country context (IPEN paints + law), keyed by the country name used here.
 
-    La jointure se fait par code ISO3 : les noms diffèrent entre les sources
-    (« Türkiye » ici, « Turkey » chez Our World in Data).
+    Joined on ISO3 codes: names differ between sources ("Türkiye" here,
+    "Turkey" in Our World in Data).
     """
     import pycountry
 
@@ -90,16 +90,16 @@ def main():
     html = TEMPLATE.read_text(encoding="utf-8").replace("__DATA__", json.dumps(payload, ensure_ascii=False))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html, encoding="utf-8")
-    print(f"{len(records)} lignes → {OUT.relative_to(ROOT)} ({OUT.stat().st_size / 1e6:.1f} Mo)")
+    print(f"{len(records)} rows → {OUT.relative_to(ROOT)} ({OUT.stat().st_size / 1e6:.1f} Mo)")
 
-    # Version pour publication en Artifact : la plateforme fournit son propre
-    # squelette <html>/<head>/<body>, on ne garde que le titre, le style et le contenu.
+    # Artifact build: the platform supplies its own <html>/<head>/<body>
+    # skeleton, so keep only the title, the style block and the body content.
     head = html.split("<title>", 1)[1]
     title, rest = head.split("</title>", 1)
     style = "<style>" + rest.split("<style>", 1)[1].split("</style>", 1)[0] + "</style>"
     body = html.split("<body>", 1)[1].rsplit("</body>", 1)[0]
     ARTIFACT.write_text(f"<title>{title}</title>\n{style}\n{body}", encoding="utf-8")
-    print(f"version Artifact → {ARTIFACT.relative_to(ROOT)} ({ARTIFACT.stat().st_size / 1e6:.1f} Mo)")
+    print(f"Artifact build → {ARTIFACT.relative_to(ROOT)} ({ARTIFACT.stat().st_size / 1e6:.1f} Mo)")
 
 
 if __name__ == "__main__":

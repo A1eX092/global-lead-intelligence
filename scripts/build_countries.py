@@ -1,8 +1,8 @@
-"""Construit data/countries.csv : contexte par pays (peintures + réglementation).
+"""Build data/countries.csv: per-country context (paint studies + regulation).
 
-Granularité différente du fichier de mesures : ici une ligne = un pays.
-Source : Our World in Data, qui compile les études IPEN (plus de 100 études,
-59 pays, plus de 4 000 peintures) et le suivi OMS/PNUE des lois sur la peinture.
+Different granularity from the measurement file: one row per country.
+Sources: Our World in Data, which compiles the IPEN paint studies (100+ studies,
+59 countries, 4,000+ paints), and the WHO Global Health Observatory for laws.
 """
 from pathlib import Path
 import json
@@ -22,12 +22,12 @@ FILES = {
 
 
 def who_lead_paint_law():
-    """Lois sur la peinture au plomb selon l'OMS (GHO, indicateur LEADCONTROL).
+    """Lead paint laws per WHO (GHO indicator LEADCONTROL).
 
-    Une ligne par pays : le statut (Yes / No / No data) et, pour les pays dotés
-    d'une loi, l'année d'entrée en vigueur. Source de référence ici, car elle
-    couvre 195 pays contre 164 dans la reprise d'Our World in Data, et elle
-    porte la profondeur historique (premières lois dès 1977).
+    One row per country: the status (Yes / No / No data) and, where a law
+    exists, the year it came into force. Used as the reference source here: it
+    covers 195 countries against 164 in the Our World in Data version, and it
+    carries the historical depth (earliest laws from 1977).
     """
     path = RAW.parent / "who" / "leadcontrol.json"
     if not path.exists():
@@ -54,15 +54,15 @@ def main():
         out["country"] = out["country"].fillna(out["iso3"])
     out = out.sort_values("country")
     out.to_csv(OUT, index=False)
-    print(f"{len(out)} pays → {OUT.relative_to(ROOT)}")
+    print(f"{len(out)} countries → {OUT.relative_to(ROOT)}")
     tested = out["paint_over_90ppm_pct"].notna()
-    print(f"{tested.sum()} pays avec des tests de peinture")
+    print(f"{tested.sum()} countries with paint studies")
     if "lead_paint_law" in out:
-        print(f"OMS : {int(out['lead_paint_law'].eq(True).sum())} pays avec une loi, "
-              f"{int(out['lead_paint_law'].eq(False).sum())} sans, "
-              f"{int(out['lead_paint_law'].isna().sum())} sans donnée")
+        print(f"WHO: {int(out['lead_paint_law'].eq(True).sum())} countries with a law, "
+              f"{int(out['lead_paint_law'].eq(False).sum())} without, "
+              f"{int(out['lead_paint_law'].isna().sum())} with no data")
         years = out["lead_paint_law_year"].dropna()
-        print(f"Années d'entrée en vigueur : {years.min()}-{years.max()}, médiane {int(years.median())}")
+        print(f"Years in force: {years.min()}-{years.max()}, median {int(years.median())}")
     worst = out[tested].nlargest(8, "paint_over_90ppm_pct")[["country", "paint_over_90ppm_pct", "paint_over_10000ppm_pct", "lead_paint_law"]]
     print(worst.to_string(index=False))
 

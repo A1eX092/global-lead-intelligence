@@ -1,31 +1,31 @@
-"""Harmonise les 3 sources dans un schéma commun → data/harmonized.csv
+"""Harmonise the three measurement sources into one schema → data/harmonized.csv
 
-Schéma (une ligne = une mesure de plomb sur un produit) :
+Schema (one row = one lead measurement on one product):
   source              pure_earth_rms | nyc_doh | king_county
-  source_id           identifiant dans la source (si dispo)
-  category            catégorie harmonisée (voir CATEGORIES)
-  category_raw        catégorie d'origine
-  product_name        description du produit
-  brand               marque (si dispo)
-  manufacturer        fabricant (si dispo)
-  origin_country      pays de fabrication / d'origine (nom ISO anglais), vide si inconnu
+  source_id           identifier within the source (when available)
+  category            harmonised category (see CATEGORIES)
+  category_raw        the source's own category label
+  product_name        product description
+  brand               brand (when available)
+  manufacturer        manufacturer (when available)
+  origin_country      country of manufacture / origin (ISO English name), empty if unknown
   origin_status       declared | inferred_region | assumed_local | unknown
-  origin_confidence   1.0 déclarée, 0.8 région identifiée, 0.35 supposée locale, vide sinon
-  origin_raw          valeur d'origine avant normalisation
-  sampled_country     pays où le produit a été acheté / prélevé
-  sampled_region      région / ville de prélèvement (si dispo)
-  year                année de prélèvement (si dispo)
+  origin_confidence   1.0 declared, 0.8 region identified, 0.35 assumed local, else empty
+  origin_raw          the origin value before normalisation
+  sampled_country     country where the product was bought or collected
+  sampled_region      region / city of collection (when available)
+  year                year of collection (when available)
   method              xrf | laboratory
   unit                ppm | mg/cm2 | mg/l
-  lead_value          valeur mesurée dans l'unité (vide si non détecté sans limite)
-  lead_ppm            valeur en ppm quand l'unité le permet (ppm, ppb)
-  non_detect          True si sous la limite de détection
-  result_status       detected | non_detected | missing — « manquant » n'est PAS « non détecté »
-  sampling_strategy   comment l'échantillon a été obtenu (voir SAMPLING) : décisif pour comparer
-  sampling_raw        libellé d'origine de la stratégie, conservé tel quel
-  reference_ppm       seuil de référence INDICATIF pour la catégorie (cf. Pure Earth RMS)
-  reference_basis     origine du seuil — jamais une norme légale, voir REFERENCE_BASIS
-  above_reference     True/False si comparable, vide sinon
+  lead_value          measured value in its own unit (for "< X" results, X is the detection limit)
+  lead_ppm            value in ppm where the unit allows it (ppm, ppb)
+  non_detect          True when below the detection limit
+  result_status       detected | non_detected | missing — "missing" is NOT "non-detected"
+  sampling_strategy   how the sample was obtained (see SAMPLING): decisive before any comparison
+  sampling_raw        the source's own wording for that strategy, kept verbatim
+  reference_ppm       INDICATIVE reference threshold for the category (from Pure Earth RMS)
+  reference_basis     where the threshold comes from — never a legal limit, see REFERENCE_BASIS
+  above_reference     True/False when comparable, empty otherwise
 """
 from pathlib import Path
 import re
@@ -38,8 +38,8 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 OUT = ROOT / "data" / "harmonized.csv"
 
-# Seuils de référence indicatifs (ppm), repris de l'étude Pure Earth RMS (feuille "Coding").
-# Ce ne sont pas des normes légales uniformes : ils servent à un premier tri.
+# Indicative reference thresholds (ppm), taken from the Pure Earth RMS study ("Coding" sheet).
+# These are not uniform legal limits: they only support a first triage.
 REFERENCE_PPM = {
     "spices": 2,
     "ceramic_tableware": 100,
@@ -54,18 +54,18 @@ REFERENCE_PPM = {
     "staple_food": 0.2,
 }
 
-REFERENCE_BASIS = "Pure Earth RMS (indicatif, pas une norme légale)"
+REFERENCE_BASIS = "Pure Earth RMS (indicative, not a legal limit)"
 
-# Stratégie d'échantillonnage : sans elle, comparer deux pays n'a aucun sens.
-# Un service de santé qui teste les produits d'enfants intoxiqués trouvera
-# mécaniquement plus de plomb qu'un acheteur qui ratisse un marché.
+# Sampling strategy: without it, comparing two countries is meaningless.
+# A health department testing the belongings of poisoned children will
+# mechanically find more lead than a buyer sweeping through a market.
 SAMPLING = {
-    "market_screening": "achats systématiques sur les marchés (Pure Earth)",
-    "case_investigation": "produits saisis lors d'une intoxication — fortement biaisé vers le haut",
-    "store_survey": "relevé en magasin",
-    "community_event": "objets apportés spontanément par des habitants — auto-sélection",
-    "research": "protocole de recherche",
-    "unknown": "non documenté",
+    "market_screening": "systematic market purchases (Pure Earth)",
+    "case_investigation": "products seized after a poisoning — strongly biased upward",
+    "store_survey": "collected in shops",
+    "community_event": "items brought in by residents — self-selected",
+    "research": "research protocol",
+    "unknown": "not documented by the source",
 }
 
 CATEGORIES = [
@@ -74,7 +74,7 @@ CATEGORIES = [
     "tableware", "toys_children", "jewelry", "paint", "animal_feed", "game_meat", "other",
 ]
 
-# ---------- pays ----------
+# ---------- countries ----------
 ALIASES = {
     "usa": "United States", "us": "United States", "u.s.a.": "United States", "u.s.": "United States",
     "united states of america": "United States", "america": "United States",
@@ -91,7 +91,7 @@ ALIASES = {
     "kyrgyzstan": "Kyrgyzstan", "egypte": "Egypt", "inde": "India", "maroc": "Morocco", "tunisie": "Tunisia",
     "allemagne": "Germany", "italie": "Italy", "espagne": "Spain", "turquie": "Türkiye",
 }
-# Noms courts pour l'affichage
+# Short display names
 DISPLAY = {
     "Tanzania, United Republic of": "Tanzania", "Viet Nam": "Vietnam", "Russian Federation": "Russia",
     "Korea, Republic of": "South Korea", "Taiwan, Province of China": "Taiwan", "Moldova, Republic of": "Moldova",
@@ -101,7 +101,7 @@ _country_cache = {}
 
 
 def to_country(value):
-    """Normalise un nom de pays libre vers le nom ISO 3166 (anglais). None si non reconnu."""
+    """Normalise a free-text country name to its ISO 3166 English name. None if unrecognised."""
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
     raw = str(value).strip()
@@ -122,7 +122,7 @@ def to_country(value):
         except LookupError:
             continue
     if result is None:
-        # Repli : un nom de pays cité dans le texte ("Made in China", "India tamilnadu"...)
+        # Fallback: a country named inside the text ("Made in China", "India tamilnadu"...)
         text = raw.lower()
         for pattern, name in _country_patterns():
             if pattern.search(text):
@@ -136,20 +136,20 @@ def strip_accents(text):
     return "".join(c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn")
 
 
-# Régions dont le nom courant diffère du nom ISO, ou qui ne sont pas des subdivisions ISO
+# Regions whose common name differs from the ISO name, or that are not ISO subdivisions
 REGION_TO_COUNTRY = {
     "east java": "Indonesia", "west java": "Indonesia", "central java": "Indonesia", "java": "Indonesia",
     "north sumatra": "Indonesia", "south sumatra": "Indonesia", "west sumatra": "Indonesia",
     "south sulawesi": "Indonesia", "north sulawesi": "Indonesia", "bali": "Indonesia",
     "zanzibar": "Tanzania", "pemba": "Tanzania",
-    "punjab": None,  # ambigu : Inde et Pakistan
+    "punjab": None,  # ambiguous: India and Pakistan
 }
 
 _subdiv_index = None
 
 
 def _subdivisions():
-    """Index { nom de région normalisé : nom de pays } (ambiguïtés écartées)."""
+    """Index of { normalised region name: country name }, ambiguous names dropped."""
     global _subdiv_index
     if _subdiv_index is None:
         index = {}
@@ -160,7 +160,7 @@ def _subdivisions():
                 continue
             name = DISPLAY.get(country.name, getattr(country, "common_name", None) or country.name)
             if key in index and index[key] != name:
-                index[key] = None  # même nom dans deux pays : on n'attribue pas
+                index[key] = None  # same name in two countries: leave unassigned
             else:
                 index.setdefault(key, name)
         for key, name in REGION_TO_COUNTRY.items():
@@ -170,10 +170,10 @@ def _subdivisions():
 
 
 def to_region_country(value, sampled_country=None):
-    """Déduit le pays à partir d'un nom de région ("East Java" → Indonesia).
+    """Infer the country from a region name ("East Java" → Indonesia).
 
-    Si la région est ambiguë entre plusieurs pays, on ne tranche que si elle
-    appartient au pays de prélèvement.
+    When a region name exists in several countries, it is only resolved if it
+    belongs to the country where the product was collected.
     """
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
@@ -198,13 +198,13 @@ NON_PLACES = re.compile(
 
 
 def resolve_regions(origin, origin_raw, sampled_country):
-    """Complète les origines manquantes à partir des noms de régions.
+    """Fill in missing origins from region names.
 
-    Renvoie (origine complétée, statut, confiance). Trois cas, dans l'ordre :
-      1. la région est identifiable (« East Java » → Indonesia, « Morelos » → Mexico) ;
-      2. la région appartient au pays de prélèvement (« Erode » en Inde) ;
-      3. le texte est un lieu non identifié mais ne dit pas « importé » : on retient
-         le pays de prélèvement (produit local), en marquant l'origine comme déduite.
+    Returns (origin, status, confidence). Three cases, in order:
+      1. the region is identifiable ("East Java" → Indonesia, "Morelos" → Mexico);
+      2. the region belongs to the country of collection ("Erode" in India);
+      3. the text is an unidentified place that does not say "imported": the
+         country of collection is used (local product), flagged as inferred.
     """
     origin = origin.copy()
     status = pd.Series("unknown", index=origin.index, dtype="object")
@@ -218,11 +218,11 @@ def resolve_regions(origin, origin_raw, sampled_country):
             continue
         says_imported = bool(NON_PLACES.search(raw))
         sampled = sampled_country[i] if pd.notna(sampled_country[i]) else None
-        # une région nommée reste exploitable même dans « Imported from Zanzibar »
+        # a named region is still usable inside "Imported from Zanzibar"
         found = to_region_country(raw, None if says_imported else sampled)
         found_status, found_confidence = "inferred_region", 0.8
         if found is None and not says_imported and sampled and re.search(r"[a-zA-Z]{3}", raw):
-            # lieu non identifié dans le pays de prélèvement → probablement un produit local
+            # unidentified place in the country of collection → probably a local product
             found, found_status, found_confidence = sampled, "assumed_local", 0.35
         if found:
             origin[i] = found
@@ -280,7 +280,7 @@ def load_rms():
     region = region.where(region.notna(), d["City"].astype("string").str.title())
     origin_raw = d["Country/region of origin"]
     origin = origin_raw.map(to_country)
-    # "local" = produit du pays de prélèvement
+    # "local" = a product from the country of collection
     is_local = origin_raw.astype("string").str.strip().str.lower().eq("local")
     origin = origin.where(~is_local, sampled_country)
     origin, origin_status, origin_confidence = resolve_regions(origin, origin_raw, sampled_country)
@@ -299,13 +299,13 @@ def load_rms():
         "origin_raw": origin_raw,
         "sampled_country": sampled_country,
         "sampled_region": region,
-        "year": pd.NA,  # prélèvements 2021-2023, pas de date par échantillon
+        "year": pd.NA,  # collected 2021-2023, no per-sample date
         "method": "xrf",
         "unit": "ppm",
         "lead_value": value,
         "lead_ppm": value,
-        # 0 = sous la limite de détection de l'appareil XRF ; une valeur absente
-        # reste « manquante » et ne doit jamais être lue comme « non détecté »
+        # 0 = below the XRF detection limit; an absent value stays "missing"
+        # and must never be read as "non-detected"
         "non_detect": value.notna() & value.le(0),
         "result_status": value.map(lambda v: "missing" if pd.isna(v) else ("non_detected" if v <= 0 else "detected")),
         "sampling_strategy": "market_screening",
@@ -322,8 +322,8 @@ NYC_CATEGORY = {
 }
 
 
-# « How the product was obtained » (champ investigation_type du jeu new-yorkais).
-# Le sens de « A » n'est pas documenté par la ville : on ne devine pas.
+# "How the product was obtained" (investigation_type in the NYC dataset).
+# The city does not document what "A" means, so it is left as unknown.
 NYC_SAMPLING = {"C": "case_investigation", "S": "store_survey", "A": "unknown"}
 
 
@@ -331,7 +331,7 @@ def load_nyc():
     n = pd.read_json(RAW / "nyc.json")
     n = n[(n["metal"] == "Lead") & (n["product_type"] != "QA/QC - Lab test")].copy()
     conc = pd.to_numeric(n["concentration"], errors="coerce")
-    non_detect = conc < 0  # -1 = non détecté dans cette source
+    non_detect = conc < 0  # -1 means non-detected in this source
     is_ppb = n["units"] == "ppb"
     value = conc.where(~non_detect)
     value = value.where(~is_ppb, value / 1000)  # ppb → ppm
@@ -404,7 +404,7 @@ def load_king_county():
         "year": pd.to_numeric(k["year_tested"], errors="coerce"),
         "method": k["test_method"].str.lower(),
         "unit": "ppm",
-        "lead_value": value,  # pour les "<", c'est la limite de détection
+        "lead_value": value,  # for "<" results this is the detection limit
         "lead_ppm": value.where(~non_detect),
         "non_detect": non_detect,
         "result_status": pd.Series(
@@ -416,11 +416,11 @@ def load_king_county():
 
 
 def clean_text(df):
-    """Nettoie les caractères cassés venus des sources (encodage perdu en amont).
+    """Clean broken characters inherited from the sources (encoding lost upstream).
 
-    Exemple : King County publie « The cr<?> me shop » pour « The crème shop ».
-    On remplace le caractère de remplacement U+FFFD par l'accent le plus probable,
-    sinon on le retire.
+    Example: King County publishes "The cr<?> me shop" for "The crème shop".
+    The U+FFFD replacement character is mapped to its most likely accented form,
+    or removed when no mapping applies.
     """
     fixes = {"cr�me": "crème", "saut�": "sauté", "caf�": "café"}
     for column in ("product_name", "brand", "manufacturer", "origin_raw", "sampled_region"):
@@ -445,18 +445,18 @@ def main():
     df["year"] = df["year"].astype("Int64")
     df.to_csv(OUT, index=False)
 
-    # Petit contrôle qualité
-    print(f"{len(df)} mesures → {OUT.relative_to(ROOT)}")
+    # Quick quality check
+    print(f"{len(df)} measurements → {OUT.relative_to(ROOT)}")
     print(df.groupby("source").size().to_string())
-    print("\nStratégie d'échantillonnage :")
+    print("\nSampling strategy:")
     print(df["sampling_strategy"].value_counts().to_string())
-    print("\nStatut du résultat :")
+    print("\nResult status:")
     print(df["result_status"].value_counts().to_string())
-    print("\nOrigine :")
+    print("\nOrigin:")
     print(df["origin_status"].value_counts().to_string())
     unmatched = df.loc[df["origin_country"].isna() & df["origin_raw"].notna(), "origin_raw"].astype(str)
     unmatched = unmatched[~unmatched.str.lower().isin(["not available", "unknown or not stated", "local"])]
-    print("Origines non reconnues les plus fréquentes :")
+    print("Most frequent unrecognised origins:")
     print(unmatched.value_counts().head(15).to_string())
 
 
